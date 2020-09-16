@@ -23,6 +23,14 @@ export var labels={
         en:"Reload page",
         bn:"রিলোড করুন"
     },
+    button_new:{
+        en:"New",
+        bn:"নিউ"
+    },
+    button_print:{
+        en:"Print",
+        bn:"প্রিন্ট"
+    },
     menu_dashboard:{
         en:"Dashboard",
         bn:"ড্যাশবোর্ড"

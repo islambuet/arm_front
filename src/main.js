@@ -16,7 +16,7 @@ Vue.prototype.$axios=axios
 
 import  '@/assets/system_functions.js'
 
-axios.defaults.baseURL = 'http://localhost/arm_back/';
+axios.defaults.baseURL = 'http://localhost/login_2018_19_dev/Api_maraj/';
 new Vue({
   router,
   render: function (h) { return h(App) }
