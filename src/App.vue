@@ -8,6 +8,7 @@
     <div id="system_content" v-if="status_site_loaded == 1">
       <Loading v-if="$system_variables.status_task_loaded == 0"/>
       <LoadingFailed v-if="$system_variables.status_task_loaded == -1"/>  
+      <Loading v-show="$system_variables.status_data_loaded == 0"/>
       <router-view/>
     </div>
   </div>
