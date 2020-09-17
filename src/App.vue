@@ -8,6 +8,7 @@
     <div id="system_content" v-if="status_site_loaded == 1">
       <Loading v-if="$system_variables.status_task_loaded == 0"/>
       <LoadingFailed v-if="$system_variables.status_task_loaded == -1"/>  
+      <Loading v-show="$system_variables.status_data_loaded == 0"/>
       <router-view/>
     </div>
   </div>
@@ -34,6 +35,7 @@ export default {
     this.$system_variables.labels=this.$system_functions.load_languages([
       {language:this.$system_variables.language,file:'languages/response.js'},
       {language:this.$system_variables.language,file:'languages/theme.js'},
+      {language:this.$system_variables.language,file:'languages/transfer.js'},
     ]);         
     document.title=this.$system_variables.get_label('site_title');
     this.init();   

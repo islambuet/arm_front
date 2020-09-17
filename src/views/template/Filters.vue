@@ -9,7 +9,7 @@
                 <td>{{ column.label }}</td>
                 <td>
                     <div v-if="column.filter_type == 'list'">
-                        <select :name="'filter['+field+']'" class="form-control mini" v-model="column.value"  @change="onChangeDropdown($event, field)">
+                        <select :name="'filter['+field+']'" class="form-control mini" v-model="column.value"  @change="on_change_dropdown($event, field)">
                             <option value="">{{$system_variables.get_label('label_select')}}</option>
                             <option v-for="(option, i) in column.options" :key="i" :value="option.value">
                                 {{ option.text }}

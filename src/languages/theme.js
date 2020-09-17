@@ -19,6 +19,34 @@ export var labels={
         en:"login",
         bn:"প্রবেশ করুন।"
     },
+    label_items_per_page:{
+        en:"Per Page",
+        bn:"পেইজ"
+    },
+    label_go_to_page:{
+        en:"Go To",
+        bn:"পেইজে যান"
+    },
+    label_previous_page:{
+        en:"Previous Page",
+        bn:"পেছনের পেইজ"
+    },
+    label_next_page:{
+        en:"Next Page",
+        bn:"সামনের পেইজ"
+    },
+    lable_displaying_item1:{
+        en:"Number of Data",
+        bn:""
+    },
+    lable_displaying_item2:{
+        en:"displaying_item2",
+        bn:""
+    },
+    label_total_item:{
+        en:"Total",
+        bn:"মোট"
+    },
     button_refresh_page:{
         en:"Reload page",
         bn:"রিলোড করুন"
@@ -29,6 +57,22 @@ export var labels={
     },
     button_print:{
         en:"Print",
+        bn:"প্রিন্ট"
+    },
+    button_csv:{
+        en:"CSV",
+        bn:"প্রিন্ট"
+    },
+    button_search:{
+        en:"Search",
+        bn:"প্রিন্ট"
+    },
+    button_column_control:{
+        en:"Header Show/Hide",
+        bn:"প্রিন্ট"
+    },
+    button_refresh:{
+        en:"Refresh",
         bn:"প্রিন্ট"
     },
     menu_dashboard:{

@@ -105,13 +105,13 @@ var system_functions= new Vue(
             }
         },
         //b-table filtering
-        get_filter_items:function (items,filterColumns)
+        get_filter_items:function (items,filter_columns)
         {   
             return items.filter((item)=>{            
-                for(var field in filterColumns)
+                for(var field in filter_columns)
                 {
-                    var filterColumn=filterColumns[field];
-                    if(filterColumn['filtertype']=='list')
+                    var filterColumn=filter_columns[field];
+                    if(filterColumn['filter_type']=='list')
                     {
                         if(filterColumn['value']!='')
                         {                     
@@ -121,36 +121,36 @@ var system_functions= new Vue(
                             }                    
                         }
                     }
-                    else if(filterColumn['filtertype']=='number')
+                    else if(filterColumn['filter_type']=='number')
                     {   
-                        if(filterColumn['fitlerFrom']['value'].length>0)
+                        if(filterColumn['filter_from']['value'].length>0)
                         {
-                            if(parseFloat(item[field])<parseFloat(filterColumn['fitlerFrom']['value']))
+                            if(parseFloat(item[field])<parseFloat(filterColumn['filter_from']['value']))
                             {                        
                                 return false;
                             }
                         }
-                        if(filterColumn['fitlerTo']['value'].length>0)
+                        if(filterColumn['filter_to']['value'].length>0)
                         {
-                            if(parseFloat(item[field])>parseFloat(filterColumn['fitlerTo']['value']))
+                            if(parseFloat(item[field])>parseFloat(filterColumn['filter_to']['value']))
                             {                        
                                 return false;
                             }
                         }
                     }
-                    else if(filterColumn['filtertype']=='date')
+                    else if(filterColumn['filter_type']=='date')
                     {
-                        if(filterColumn['fitlerStart']['value'].length>0)
+                        if(filterColumn['filter_start']['value'].length>0)
                         {                            
-                            var starttime=new Date(filterColumn['fitlerStart']['value']).getTime() / 1000;
+                            var starttime=new Date(filterColumn['filter_start']['value']).getTime() / 1000;
                             if(parseFloat(item[field])<starttime)
                             {                        
                                 return false;
                             }
                         }
-                        if(filterColumn['fitlerEnd']['value'].length>0)
+                        if(filterColumn['filter_end']['value'].length>0)
                         {                            
-                            var endtime=new Date(filterColumn['fitlerEnd']['value']).getTime() / 1000;
+                            var endtime=new Date(filterColumn['filter_end']['value']).getTime() / 1000;
                             if(parseFloat(item[field])>endtime)
                             {                        
                                 return false;
