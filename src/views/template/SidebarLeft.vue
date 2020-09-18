@@ -4,6 +4,7 @@
     <ul class="list-unstyled">
         <li @click="$system_htm_elements_action.click_task_links($event)"><router-link to="/"><img src="http://45.251.59.5/arm/images/menu_icons/1/dashboard.png">{{$system_variables.get_label('menu_dashboard')}}</router-link></li>
         <li @click="$system_htm_elements_action.click_task_links($event)"><router-link to="/sys_module_task"><img src="http://45.251.59.5/arm/images/menu_icons/1/dashboard.png">Module and Task</router-link></li>
+        <li @click="$system_htm_elements_action.click_task_links($event)"><router-link to="/sys_user_group"><img src="http://45.251.59.5/arm/images/menu_icons/1/dashboard.png">User Group</router-link></li>
         <menu-tree v-for="(item, index) in $system_variables.users.tasks" :key="index" :menu="$system_variables.users.tasks[index]" :itemIdPrefix="'left_side_menu_'"></menu-tree>        
     </ul>
 </nav>
