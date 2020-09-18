@@ -34,7 +34,7 @@ var system_functions= new Vue(
                 {
                     day='0'+day;
                 }
-                return day+'-'+date.toLocaleString('default', { month: 'short' })+'-'+date.getFullYear();
+                return day+'-'+date.toLocaleString('en-GB', { month: 'short' })+'-'+date.getFullYear();
                 //return date.toDateString().substr(0,19);
             }
             else

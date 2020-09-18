@@ -4,10 +4,10 @@
       <div class="card d-print-none mb-2">
         <div class="card-body">
             <!-- 0=view,1=add,2=edit,3=delete,4=forward,5=print,6=csv,7=column header,8=filter -->
-            <b-button class="mr-2 mb-2" variant="success" @click="add()" v-if="$parent.permissions.action1">{{$system_variables.get_label('button_new')}}</b-button>
+            <router-link  to="/sys_module_task/add" :class="'btn btn-success mr-2 mb-2'" >{{$system_variables.get_label('button_new')}}</router-link>            
             <b-button onclick="window.print();" class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action5" >{{$system_variables.get_label('button_print')}}</b-button>
-            <b-button @click="$system_functions.export_csv(get_csv_headers,modified_items)" class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action5" >{{$system_variables.get_label('button_csv')}}</b-button>          
-            <b-button class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action6" :pressed.sync="show_fitler_options">{{$system_variables.get_label('button_search')}}</b-button>
+            <b-button @click="$system_functions.export_csv(get_csv_headers,modified_items)" class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action8" >{{$system_variables.get_label('button_csv')}}</b-button>          
+            <b-button class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action8" :pressed.sync="show_fitler_options">{{$system_variables.get_label('button_search')}}</b-button>
             <b-button class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action0" @click="$parent.init" >{{$system_variables.get_label('button_refresh')}}</b-button>
         </div>
       </div>
@@ -32,10 +32,10 @@
                 </div>
               </template> -->
 
-              <template v-slot:[`head(name${index})`]="data" v-for="index in $parent.max_level">              
-                <div>{{ data.label}}</div>
+              <template v-slot:[`head(name_${$system_variables.language}${index})`]="data" v-for="index in $parent.max_level">              
+                <div>{{data.label}}</div>
                 <div v-if="show_fitler_options" class="d-print-none">
-                  <input type="text"  class="form-control" v-model="$parent.columns.filter_columns['name'+index].value" />
+                  <input type="text"  class="form-control" v-model="$parent.columns.filter_columns['name_'+$system_variables.language+index].value" />
                 </div>
               </template>
 
@@ -58,6 +58,12 @@
                   {{$system_variables.get_label('label_end_date')}}<input type="date" v-model="$parent.columns.filter_columns['date_created'].fitler_end.value" class="form-control" />
                 </div>
               </template> -->
+
+              <template v-slot:[`cell(name_${$system_variables.language}${index})`]="data" v-for="index in $parent.max_level">              
+                <div v-if="data.value==''">{{ data.value}}</div>
+                <router-link v-else :to="'/sys_module_task/edit/'+data.item.id" :class="'text-primary'" >{{ data.value}}</router-link>
+                
+              </template>
             </b-table>
           </div>          
         </div>
@@ -78,8 +84,8 @@ export default {
   },
   data:function(){
     return{
-      show_fitler_options:true,
-      kye:1
+      show_fitler_options:true
+      
     }
   },
   computed:{   
@@ -93,11 +99,12 @@ export default {
         {
           if(level==this.$parent.items[i].level)
           {
-            item['name'+level]=this.$parent.items[i].module_task.name;          
+            //item['name_'+this.$system_variables.language+level]=this.$parent.items[i].module_task['name_'+this.$system_variables.language];          
+            item['name_'+this.$system_variables.language+level]=this.$parent.items[i].module_task['name_en'];          
           }
           else
           { 
-            item['name'+level]='-';   
+            item['name_'+this.$system_variables.language+level]='';   
           }
           
         }
@@ -107,12 +114,7 @@ export default {
         item.date_created=this.$parent.items[i].module_task.date_created;
         temp_items.push(item);
       } 
-      var filterd_items=this.$system_functions.get_filter_items(temp_items,this.$parent.columns.filter_columns);    
-      /*var tempItems=this.$systemFunctions.getFilterItems(this.$parent.items,this.$parent.columns.filterColumns);
-      this.$parent.pagination.numItemshowing=tempItems.length;
-      return tempItems;*/
-      //module_task
-      //console.log(temp_items);
+      var filterd_items=this.$system_functions.get_filter_items(temp_items,this.$parent.columns.filter_columns);          
       return filterd_items;
     },          
     get_csv_headers(){
@@ -123,15 +125,7 @@ export default {
   {      
   }, 
   methods:{    
-    add:function()
-    {
-      //this.$router.push({path:"/variety/add"});
-    },
-    edit:function(item)
-    {
-      //this.$router.push("/variety/edit/"+item.id);
-      
-    },    
+       
   } 
 }
 </script>

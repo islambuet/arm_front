@@ -9,7 +9,7 @@ const routes = [
   { path: '/sys_module_task',component: function () {return import('@/components/sys_module_task/SysMouduleTask.vue')},
     children: [
       {path: 'add'},      
-      {path: 'edit/:task_id'}      
+      {path: 'edit/:item_id'}      
     ]
   },  
   { path: '*',name:'NotFound',component: function () {return import('@/components/not_found/NotFound.vue')}},
