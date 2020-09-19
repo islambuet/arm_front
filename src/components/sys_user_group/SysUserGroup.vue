@@ -36,6 +36,8 @@ export default {
         types:[],
         item:{},        
         default_item:{id:0,name:"",ordering:99,status:'Active'},
+        //pagination:{current_page:1,items_per_page:50,num_itemshowing:0,num_items:10,page_options: [10,20, 50, 100, 500]},
+        pagination:{current_page:1,items_per_page:5,num_item_showing:0,num_items:0},
         max_level:0,
         reload_items:true
       }
@@ -129,7 +131,9 @@ export default {
               else
               {   
                   
-                  this.items=response.data.items;                                        
+                  this.items=response.data.items;
+                  //this.pagination.num_items=response.data.num_items;//here returning all data                                        
+                  this.pagination.num_items=this.items.length;
                   this.reload_items=false;
               }       
             })

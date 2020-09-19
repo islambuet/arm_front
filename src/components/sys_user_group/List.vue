@@ -61,6 +61,11 @@
             </b-table>
           </div>          
         </div>
+        <div class="card mb-2 d-print-none">
+          <div class="card-body pb-0">
+            <Pagination :pagination="$parent.pagination"/>            
+          </div>
+        </div>
     </div>
     
   </div>
@@ -68,24 +73,24 @@
 
 <script>
 //import Filters from '@/views/template/Filters.vue'
-//import Pagination from '@/views/template/Pagination.vue'
+import Pagination from '@/views/template/Pagination.vue'
 
 
 export default {
   name: 'List',
   components: {
-    //Filters,Pagination   
+    Pagination   
   },
   data:function(){
     return{
       show_column_controls:true,
       show_fitler_options:true
-      
     }
   },
   computed:{   
     modified_items:function(){       
-      var filterd_items=this.$system_functions.get_filter_items(this.$parent.items,this.$parent.columns.filter_columns);          
+      var filterd_items=this.$system_functions.get_filter_items(this.$parent.items,this.$parent.columns.filter_columns); 
+      this.$parent.pagination.num_item_showing=filterd_items.length;         
       return filterd_items;
     },          
     get_csv_headers(){

@@ -219,6 +219,12 @@ a:focus {
     z-index: 1001!important;
 }
 @media print {
+    .btn{
+        border: none;
+    }
+    .dropdown-toggle::after{
+        content: none;
+    }
     .hasActionColumn table td:last-child {display:none}
     .hasActionColumn table th:last-child {display:none}
    }
