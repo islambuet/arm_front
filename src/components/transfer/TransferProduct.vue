@@ -23,11 +23,12 @@ export default {
             reload_items:true,
             crops:[],
             crop_types:{},
-            typeVarieties:{},
+            type_varieties:{},
             columns:{hidden_columns:[],control_columns:[],filter_columns:{},display_columns:[]}, 
             pagination:{current_page:1,items_per_page:50,num_item_showing:0,num_items:10,page_options: [10,20, 50, 100, 500]},
             item:{id:0,crop_id:"",type_id:"",variety_id:""},        
-            default_item:{id:0,crop_id:"",type_id:"",variety_id:""},                
+            default_item:{id:0,crop_id:"",type_id:"",variety_id:""},  
+            variety_pack_info: []              
         }
     }, 
     watch: {
@@ -70,6 +71,7 @@ export default {
                     this.type_varieties=response.data.type_varieties;
                     //this.items=response.data.items; 
                     this.default_item=response.data.default_item; 
+                    this.variety_pack_info=response.data.variety_pack; 
                     if(response.data.hidden_columns){
                         this.columns.hidden_columns=response.data.hidden_columns;
                     }  
@@ -174,7 +176,7 @@ export default {
                 } else {
                     this.$system_variables.statusDataLoaded=0;        
                     var formData=new FormData();
-                    formData.append ('tokenAuth', this.$system_variables.user.tokenAuth);      
+                    formData.append ('token_auth', this.$system_variables.user.token_auth);      
                     formData.append ('item_id', id);      
                     this.$axios.post('/variety/get_item',formData)
                     .then(response=>{          
