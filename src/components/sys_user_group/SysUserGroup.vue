@@ -19,11 +19,10 @@ export default {
     },
     mounted:function()
     {
-      Object.assign(this.$system_variables.labels, this.$system_functions.load_languages([
-        {language:this.$system_variables.language,file:'components/sys_user_group/language.js'},        
-      ]));
-
-      
+       this.$system_variables.labels_task=this.$system_functions.load_languages([
+        {language:this.$system_variables.language,file:'components/sys_user_group/language.js'}
+        
+      ]); 
       //Object.assign(this.item, this.default_item); 
       this.init();        
     },
@@ -84,8 +83,13 @@ export default {
             else
             {
                 this.permissions=response.data.permissions;                 
-                Object.assign(this.default_item, response.data.default_item);                  
+                Object.assign(this.default_item, response.data.default_item); 
+                if(response.data.hidden_columns)  
+                {
+                  this.columns.hidden_columns=response.data.hidden_columns;
+                }               
                 this.$system_variables.status_task_loaded=1;
+                this.set_control_columns();
                 this.set_filter_columns();
                 this.set_display_columns();  
                 this.routing(this.$route);
@@ -95,6 +99,16 @@ export default {
             console.log(error);
             this.$system_variables.status_task_loaded=-1;
         });
+    },
+    set_control_columns:function()
+    {
+      //value field mandatory for checked value
+      var control_columns=[]
+      control_columns.push({ label:this.$system_variables.get_label('label_id'), value: 'id',selected: this.columns.hidden_columns.indexOf('id')>=0?'id':''});
+      control_columns.push({ label:this.$system_variables.get_label('label_ordering'), value: 'ordering',selected: this.columns.hidden_columns.indexOf('ordering')>=0?'ordering':''});
+      control_columns.push({ label:this.$system_variables.get_label('label_status'), value: 'status',selected: this.columns.hidden_columns.indexOf('status')>=0?'status':''});
+
+      this.columns.control_columns=control_columns;      
     },
     set_filter_columns:function()
     {
@@ -108,10 +122,11 @@ export default {
     set_display_columns:function()
     {
       var columns={};
-      columns['id']={label:this.$system_variables.get_label('ID'), hidden:this.columns.hidden_columns.indexOf('id')>=0?true:false,stickyColumn:true,sortable:false};
-      columns['name']={label:this.$system_variables.get_label('name'), hidden:this.columns.hidden_columns.indexOf('name')>=0?true:false,stickyColumn:false,sortable:false};
-      columns['ordering']={label:this.$system_variables.get_label('ordering'), hidden:this.columns.hidden_columns.indexOf('id')>=0?true:false,stickyColumn:false,sortable:false};
-      columns['status']={label:this.$system_variables.get_label('status'), hidden:this.columns.hidden_columns.indexOf('status')>=0?true:false,stickyColumn:false,sortable:false};
+      columns['actions']={label:this.$system_variables.get_label('Label_action'), hidden:this.columns.false,sticky_column:true};
+      columns['id']={label:this.$system_variables.get_label('label_id'), hidden:this.columns.hidden_columns.indexOf('id')>=0?true:false,sticky_column:false,sortable:false};
+      columns['name']={label:this.$system_variables.get_label('label_name'), hidden:this.columns.hidden_columns.indexOf('name')>=0?true:false,sticky_column:false,sortable:false};
+      columns['ordering']={label:this.$system_variables.get_label('label_ordering'), hidden:this.columns.hidden_columns.indexOf('ordering')>=0?true:false,sticky_column:false,sortable:false};
+      columns['status']={label:this.$system_variables.get_label('label_status'), hidden:this.columns.hidden_columns.indexOf('status')>=0?true:false,sticky_column:false,sortable:false};
       this.columns.display_columns=this.$system_functions.get_display_columns(columns); 
     },
     get_items:function()

@@ -218,13 +218,7 @@ a:focus {
 .ui-datepicker{
     z-index: 1001!important;
 }
-@media print {
-    .btn{
-        border: none;
-    }
-    .dropdown-toggle::after{
-        content: none;
-    }
-    .hasActionColumn table td:last-child {display:none}
-    .hasActionColumn table th:last-child {display:none}
+@media print {    
+    .has_action_column_first table td:first-child {display:none}
+    .has_action_column_first table th:first-child {display:none}
    }

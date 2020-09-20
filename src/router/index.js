@@ -15,7 +15,8 @@ const routes = [
   { path: '/sys_user_group',component: function () {return import('@/components/sys_user_group/SysUserGroup.vue')},
     children: [
       {path: 'add'},      
-      {path: 'edit/:item_id'}      
+      {path: 'edit/:item_id'} ,     
+      {path: 'assign_role/:item_id'} ,     
     ]
   },  
   { path: '*',name:'NotFound',component: function () {return import('@/components/not_found/NotFound.vue')}},

@@ -41,55 +41,9 @@ var system_functions= new Vue(
             {
                 return '';
             }            
-        },
-        
-        //column preferene
-        save_preference:function(event,formId,bvToast) 
-        {
-            // this.$systemVariables.statusSaving=1;        
-            // var formData=new FormData(document.getElementById(formId));
-            // formData.append ('tokenAuth', this.$systemVariables.user.tokenAuth);      
-                
-                    
-            // this.$axios.post('/variety/save_preferences',formData)
-            // .then(response=>{          
-            //     this.$systemVariables.statusSaving=0;
-            //     if(response.data.errorString)        
-            //     {            
-            //         if(response.data.errorString==this.$systemResponse.NoAccess)
-            //         { 
-            //             this.$systemVariables.statusTaskLoaded=-2;
-            //         }
-            //         else
-            //         {
-            //             this.$systemVariables.statusDataLoaded=1;
-            //             bvToast.toast(response.data.errorString, {
-            //                 title: 'Error',
-            //                 autoHideDelay: 5000,
-            //                 appendToast: false    
-            //             });
-            //         }          
-            //     }
-            //     else
-            //     {   
-            //         bvToast.toast("Preference saved Succesfully", {
-            //             title: 'Success',
-            //             autoHideDelay: 5000,
-            //             appendToast: false    
-            //         });
-            //     }        
-            // })
-            // .catch(error => {   
-            //     this.$systemVariables.statusSaving=0;
-            //     bvToast.toast('Server Error', {
-            //     title: 'Save Problem',
-            //     autoHideDelay: 5000,
-            //     appendToast: false
-            //     });     
-            //     console.log("here");
-            // });
-        },
+        },        
         //filter section
+        //get display formated columns. columns=columns.display_columns
         get_display_columns:function(columns)
         {
             var display_columns=[];
@@ -101,9 +55,9 @@ var system_functions= new Vue(
                 var display_column = {};
                 display_column['key']=field;
                 display_column['label']=column['label'];
-                if(column['stickyColumn'])
+                if(column['sticky_column'])
                 {
-                    display_column['stickyColumn']=column['stickyColumn'];
+                    display_column['stickyColumn']=column['sticky_column'];
                 }
                 if(column['field_type']=='date')
                 {
@@ -120,6 +74,7 @@ var system_functions= new Vue(
             }  
             return display_columns;            
         },
+        //for filter drop down on change
         on_change_filter_option:function(event,columns, field) 
         {
             if(columns[field]['child'])
@@ -135,7 +90,7 @@ var system_functions= new Vue(
                 columns[columns[field]['child']['field']]['options']=columns[field]['child']['options'][columns[field]['value']];
             }
         },
-        //b-table filtering
+        //b-table filtering filter_coulumns=columns.filter_columns
         get_filter_items:function (items,filter_columns)
         {   
             return items.filter((item)=>{            

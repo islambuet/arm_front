@@ -20,6 +20,7 @@ function initial_data()
     status_task_loaded:0,    //Loading=0,success=1,failed=-1,acceesdenied=-2  for all page
     status_data_loaded:0,    //Loading=0,loaed=1
     labels:{},
+    labels_task:{},
 
     system_crops:[],
     system_crop_types:{},
@@ -45,6 +46,9 @@ var system_variables= new Vue(
         },
         get_label(key){        
           return this.labels[key]?this.labels[key]:key;
+        },
+        get_label_task(key){        
+          return this.labels_task[key]?this.labels_task[key]:key;
         }
       }
     }
