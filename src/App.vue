@@ -37,6 +37,7 @@ export default {
     this.$system_variables.labels=this.$system_functions.load_languages([
       {language:this.$system_variables.language,file:'languages/response.js'},
       {language:this.$system_variables.language,file:'languages/theme.js'},
+      {language:this.$system_variables.language,file:'languages/buttons.js'},
     ]);         
     document.title=this.$system_variables.get_label('site_title');
     this.init();   

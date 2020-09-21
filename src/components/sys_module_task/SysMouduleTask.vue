@@ -174,7 +174,7 @@ export default {
             if(response.data.error_type)        
             {            
               this.$bvToast.toast(this.$system_variables.get_label(response.data.error_type), {title: this.$system_variables.get_label('label_error'),variant:'danger',autoHideDelay: 5000,appendToast: false});
-              this.$router.push("/variety");
+              this.$router.push("/sys_module_task");
             }
             else
             {
@@ -185,14 +185,14 @@ export default {
               else
               {
                 this.$bvToast.toast(this.$system_variables.get_label('Data Not Found'), {title: this.$system_variables.get_label('label_error'),variant:'danger',autoHideDelay: 5000,appendToast: false});
-                this.$router.push("/variety");
+                this.$router.push("/sys_module_task");
               }
             }        
           })
           .catch(error => {   
             this.$system_variables.status_data_loaded=1;
             this.$bvToast.toast(this.$system_variables.get_label("Response Error"), {title: this.$system_variables.get_label('label_error'),variant:'danger',autoHideDelay: 5000,appendToast: false});  
-            this.$router.push("/variety");            
+            this.$router.push("/sys_module_task");            
           });
         }
       }

@@ -20,7 +20,7 @@
       </div>
       <div class="card mb-2">
           <div class="card-header d-print-none">
-              {{$system_variables.get_label_task('label_list_user_group')}}
+              {{$system_variables.get_label_task('label_list')}}
           </div>
           <div class="card-body"> 
             <b-table  
@@ -59,7 +59,7 @@
                 </div>
               </template>
               <template v-slot:cell(actions)="data">
-                <b-dropdown size="sm" :text="$system_variables.get_label('label_action')" dropright variant="primary" :class="'action_menu'">
+                <b-dropdown size="sm" :text="$system_variables.get_label('button_action')" dropright variant="primary" :class="'action_menu'">
                   <b-dropdown-item :to="'/sys_user_group/edit/'+data.item.id">{{$system_variables.get_label('action_edit')}}</b-dropdown-item>
                   <b-dropdown-divider></b-dropdown-divider>
                   <b-dropdown-item :to="'/sys_user_group/role/'+data.item.id">{{$system_variables.get_label_task('action_assign_role')}}</b-dropdown-item>

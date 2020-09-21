@@ -34,12 +34,12 @@ export default {
         items:[],
         types:[],
         item:{},        
-        default_item:{id:0,name:"",ordering:99,status:'Active'},
+        default_item:{id:0,name:"",ordering:99,status:'Active',action_0:0,action_1:0,action_2:0,action_3:0,action_4:0,action_5:0,action_6:0,action_7:0,action_8:0},
         //pagination:{current_page:1,items_per_page:50,num_itemshowing:0,num_items:10,page_options: [10,20, 50, 100, 500]},
         pagination:{current_page:1,items_per_page:5,num_item_showing:0,num_items:0},
         max_modules_tasks_level:1,
         modules_tasks:[],
-        max_module_task_action:8,
+        max_module_task_action:9,
         reload_items:true
       }
     },
@@ -69,7 +69,7 @@ export default {
       else if(route.path.indexOf("/sys_user_group/role/")!=-1)
       {
         this.method='role';        
-        //this.add_edit(route.params['item_id']);        
+        this.role(route.params['item_id']);        
       }
     },
     init:function()
@@ -90,7 +90,8 @@ export default {
             else
             {
                 this.permissions=response.data.permissions;                 
-                Object.assign(this.default_item, response.data.default_item); 
+                Object.assign(this.default_item, response.data.default_item);                 
+                Object.assign(this.item, this.default_item); 
                 if(response.data.hidden_columns)  
                 {
                   this.columns.hidden_columns=response.data.hidden_columns;
@@ -228,6 +229,54 @@ export default {
         }        
       } */
        
+    },
+    role:function(item_id)
+    {
+      if(item_id>0)
+      {
+        if(!(this.permissions.action2))
+        {
+          
+          this.$system_variables.status_task_loaded=-2;
+        }
+        else
+        {
+          this.$system_variables.status_data_loaded=0;        
+          var form_data=new FormData();
+          form_data.append ('token_auth', this.$system_variables.user.token_auth);                  
+          form_data.append ('item_id', item_id);
+          this.$axios.post('/sys_user_group/get_item',form_data)
+          .then(response=>{          
+            this.$system_variables.status_data_loaded=1;
+            if(response.data.error_type)        
+            {            
+              this.$bvToast.toast(this.$system_variables.get_label(response.data.error_type), {title: this.$system_variables.get_label('label_error'),variant:'danger',autoHideDelay: 5000,appendToast: false});
+              this.$router.push("/sys_user_group");
+            }
+            else
+            {
+              if(response.data.item)  
+              {
+                this.item=response.data.item; 
+              }
+              else
+              {
+                this.$bvToast.toast(this.$system_variables.get_label('Data Not Found'), {title: this.$system_variables.get_label('label_error'),variant:'danger',autoHideDelay: 5000,appendToast: false});
+                this.$router.push("/sys_user_group");
+              }
+            }        
+          })
+          .catch(error => {   
+            this.$system_variables.status_data_loaded=1;
+            this.$bvToast.toast(this.$system_variables.get_label("Response Error"), {title: this.$system_variables.get_label('label_error'),variant:'danger',autoHideDelay: 5000,appendToast: false});  
+            this.$router.push("/sys_user_group");            
+          });
+        }
+      }
+      else
+      {
+        this.$system_variables.status_task_loaded=-2;        
+      }
     },
     getItems:function()
     {

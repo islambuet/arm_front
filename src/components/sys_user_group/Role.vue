@@ -1,28 +1,30 @@
 <template>
-  <div>
+  <div>    
     <div v-if="$parent.permissions.action2" v-show="$system_variables.status_data_loaded==1">
       <div class="card d-print-none mb-2">
           <div class="card-body">
-            <router-link  to="/sys_user_group" :class="'btn btn-success mr-2 mb-2'" >{{$system_variables.get_label('button_back')}}</router-link>
+            <router-link  to="/sys_user_group" :class="'btn btn-success mr-2 mb-2'" >{{$system_variables.get_label('action_back')}}</router-link>
           </div>
       </div>
       
       <div id="accordion" class="d-print-none">        
         <div v-for="(modules_tasks_gropus, root_name) in get_modules_tasks_tree" :key="root_name"> 
-          <div class="card mb-2">
+          <form :id="'form_save_'+modules_tasks_gropus.modules_tasks[0].id">
+            <div class="card mb-2">
               <div class="card-header">
                   <a class="btn-link" data-toggle="collapse" :href="'#sub_accordion_'+modules_tasks_gropus.modules_tasks[0].id">
                       {{root_name}}
                   </a>
+                  <b-button class="mr-2 float-right" variant="success" @click="save_role('form_save_'+modules_tasks_gropus.modules_tasks[0].id)" >{{$system_variables.get_label('Save')}}</b-button>
               </div>
               <div :id="'sub_accordion_'+modules_tasks_gropus.modules_tasks[0].id" class="overflow-auto collapse">
-                <div class="card-body">
+                <div class="card-body p-0">
                   <table class="table table-hover table-bordered">
                       <thead class="text-center thead-light">
                         <tr>
-                            <th :colspan="modules_tasks_gropus.max_level">{{$system_variables.get_label('LABEL_MODULE_TASK_NAME')}}</th>
+                            <th :colspan="modules_tasks_gropus.max_level">{{$system_variables.get_label_task('label_module_task_name')}}</th>
                             <th v-for="(j, i) in $parent.max_module_task_action" :key="i">
-                              <label><input type="checkbox" :data-type="'header_action_'+i+'_'+modules_tasks_gropus.modules_tasks[0].id" class="header_action"> {{$system_variables.get_label('LABEL_ACTION'+i)}}</label>
+                              <label><input type="checkbox" :data-type="'header_action_'+i+'_'+modules_tasks_gropus.modules_tasks[0].id" class="header_action"> {{$system_variables.get_label('action_'+i)}}</label>
                             </th>
                         </tr>
                       </thead>
@@ -30,13 +32,21 @@
                         <tr v-for="(module_task, index_mt) in modules_tasks_gropus.modules_tasks" :key="index_mt"> 
                           <td v-for="(j, i) in modules_tasks_gropus.max_level" :key="i">                            
                             <label v-if="module_task.level==j">
+                              <input type="hidden" :name="'tasks['+module_task.id+'][task_id]'" :value="module_task.id" v-if="module_task.type=='TASK'" />
                               <input type="checkbox" :data-id="module_task.id" :class="'task_action '+module_task.parent_class" />
                               {{module_task.name_en}}
+                              
                             </label>
                           </td>
                           <td v-for="(j, i) in $parent.max_module_task_action" :key="'A'+i" >
                             <label v-if="module_task.type=='TASK'">
-                              <input type="checkbox" :class="'header_action_'+i+' header_action_'+i+'_'+modules_tasks_gropus.modules_tasks[0].id+' '+module_task.parent_class+' '+'parent_'+module_task.id" v-model="module_task['action_'+i]" />
+                              <input type="checkbox" 
+                              :class="'header_action_'+i+' header_action_'+i+'_'+modules_tasks_gropus.modules_tasks[0].id+' '+module_task.parent_class+' '+'parent_'+module_task.id" 
+                              v-model="module_task['action_'+i]" 
+                              value="1"
+                              :name="'tasks['+module_task.id+'][actions]['+i+']'"
+                              :title="$system_variables.get_label('action_'+i)"
+                              />
                             </label>
                           </td>
                         </tr>
@@ -44,7 +54,10 @@
                   </table>
                 </div>
               </div>
-          </div>
+            </div>
+
+          </form>
+          
         </div>
       </div>
     </div>
@@ -90,9 +103,6 @@ export default {
   computed:{   
     get_modules_tasks_tree:function(){ 
       var items={}
-    //   Object.values(this.$parent.modules_tasks).forEach(obj => {
-    //   items[obj.module_task.name_en]=obj.module_task;
-    // });
       for(var i=0;i< this.$parent.modules_tasks.length;i++)
       {
         if(this.$parent.modules_tasks[i].level==1)
@@ -111,7 +121,16 @@ export default {
             }
             for(var k=0;k<this.$parent.max_module_task_action;k++)
             {
-              item['action_'+k]=true;
+              
+              //console.log(this.$parent.item);
+              if(this.$parent.item['action_'+k].indexOf(','+item.id+',')>=0)
+              {
+                item['action_'+k]=true;
+              }
+              else
+              {
+                item['action_'+k]=false;
+              }
             }            
             if(((j+1)==this.$parent.modules_tasks.length)||(this.$parent.modules_tasks[j+1].level==1))            
             {
@@ -125,7 +144,33 @@ export default {
       return items;
     }
   },
-  methods:{   
+  methods:{  
+    save_role:function(form_id){
+      
+      this.$system_variables.status_data_loaded=0;       
+      var form_data=new FormData(document.getElementById(form_id));       
+      form_data.append ('token_auth', this.$system_variables.user.token_auth); 
+      form_data.append ('token_save', this.$system_variables.user.token_save); 
+      form_data.append ('item_id', this.$parent.item.id);
+      this.$axios.post('/sys_user_group/save_role',form_data)
+      .then(response=>{          
+        this.$system_variables.status_data_loaded=1;
+        if(response.data.error_type)        
+        {            
+          this.$bvToast.toast(this.$system_variables.get_label(response.data.error_type), {title: this.$system_variables.get_label('label_error'),variant:'danger',autoHideDelay: 5000,appendToast: false});
+        }
+        else
+        {
+            this.$system_variables.status_data_loaded=1;
+            this.$bvToast.toast(this.$system_variables.get_label("Saved SuccessFully"), {title: this.$system_variables.get_label('label_Success'),variant:'Success',autoHideDelay: 5000,appendToast: false});                          
+        }                 
+      })
+      .catch(error => {   
+        this.$system_variables.status_data_loaded=1;
+        this.$bvToast.toast(this.$system_variables.get_label("Response Error"), {title: this.$system_variables.get_label('label_error'),variant:'danger',autoHideDelay: 5000,appendToast: false});   
+      });
+
+    } 
     
     
   }  
