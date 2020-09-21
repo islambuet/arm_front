@@ -46,8 +46,7 @@
                               value="1"
                               :name="'tasks['+module_task.id+'][actions]['+i+']'"
                               :title="$system_variables.get_label('action_'+i)"
-                              />
-                              {{module_task['action_'+i]}}
+                              />                              
                             </label>
                           </td>
                         </tr>
@@ -90,16 +89,11 @@ export default {
 
             if($(this).is(':checked'))
             {
-              //$('.parent_'+$(this).attr('data-id')).attr('checked','checked');
-              
-                //$('.task_action_'+$(this).attr('data-id')+':not(.header_action_3,.header_action_4)').prop('checked', true);
                 //$('.parent_'+$(this).attr('data-id')+':not(.header_action_3)').prop('checked', true);
                 $('.parent_'+$(this).attr('data-id')+':not(.header_action_3,.header_action_7,.header_action_8)').prop('checked', true);
             }
             else
             {
-              //$('.parent_'+$(this).attr('data-id')).removeAttr('checked');
-              
                 $('.parent_'+$(this).attr('data-id')).prop('checked', false);
             }
         });
@@ -167,8 +161,9 @@ export default {
         }
         else
         {
-            this.$system_variables.status_data_loaded=1;
-            this.$bvToast.toast(this.$system_variables.get_label("Saved SuccessFully"), {title: this.$system_variables.get_label('label_Success'),variant:'Success',autoHideDelay: 5000,appendToast: false});                          
+          this.$parent.reload_items=true;
+          this.$system_variables.status_data_loaded=1;
+          this.$bvToast.toast(this.$system_variables.get_label("Saved SuccessFully"), {title: this.$system_variables.get_label('label_Success'),variant:'Success',autoHideDelay: 5000,appendToast: false});                          
         }                 
       })
       .catch(error => {   
