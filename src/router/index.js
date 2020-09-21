@@ -16,7 +16,7 @@ const routes = [
     children: [
       {path: 'add'},      
       {path: 'edit/:item_id'} ,     
-      {path: 'assign_role/:item_id'} ,     
+      {path: 'role/:item_id'} ,     
     ]
   },  
   { path: '*',name:'NotFound',component: function () {return import('@/components/not_found/NotFound.vue')}},

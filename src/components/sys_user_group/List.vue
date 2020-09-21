@@ -4,7 +4,7 @@
       <div class="card d-print-none mb-2">
         <div class="card-body">
             <!-- 0=view,1=add,2=edit,3=delete,4=forward,5=print,6=csv,7=filter,8=column header -->
-            <router-link  to="/sys_module_task/add" :class="'btn btn-success mr-2 mb-2'" >{{$system_variables.get_label('action_new')}}</router-link>            
+            <router-link  to="/sys_user_group/add" :class="'btn btn-success mr-2 mb-2'" >{{$system_variables.get_label('action_new')}}</router-link>            
             <b-button onclick="window.print();" class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action5" >{{$system_variables.get_label('action_print')}}</b-button>
             <b-button @click="$system_functions.export_csv(get_csv_headers,modified_items)" class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action6" >{{$system_variables.get_label('action_csv')}}</b-button>          
             <b-button class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action7" :pressed.sync="show_fitler_options">{{$system_variables.get_label('action_search')}}</b-button>
@@ -59,10 +59,10 @@
                 </div>
               </template>
               <template v-slot:cell(actions)="data">
-                <b-dropdown size="sm" :text="$system_variables.get_label('label_action')" left variant="primary">
+                <b-dropdown size="sm" :text="$system_variables.get_label('label_action')" dropright variant="primary" :class="'action_menu'">
                   <b-dropdown-item :to="'/sys_user_group/edit/'+data.item.id">{{$system_variables.get_label('action_edit')}}</b-dropdown-item>
                   <b-dropdown-divider></b-dropdown-divider>
-                  <b-dropdown-item :to="'/sys_user_group/assign_role/'+data.item.id">{{$system_variables.get_label_task('action_assign_role')}}</b-dropdown-item>
+                  <b-dropdown-item :to="'/sys_user_group/role/'+data.item.id">{{$system_variables.get_label_task('action_assign_role')}}</b-dropdown-item>
                 </b-dropdown>
               </template>
             </b-table>

@@ -2,7 +2,7 @@
   <div>
      <div v-if="$system_variables.status_task_loaded==1">
     <List v-show="method=='list'"/>    
-    <!-- <AddEdit v-show="method=='add' || method=='edit'"/>     -->
+    <Role v-show="method=='role'"/>    
     </div>
   </div>
   
@@ -11,11 +11,11 @@
 
 <script>
 import List from './List.vue'
-import AddEdit from './AddEdit.vue'
+import Role from './Role.vue'
 export default {
     name: 'SysModuleTask',
     components: {
-        List//,AddEdit   
+        List,Role//,AddEdit   
     },
     mounted:function()
     {
@@ -37,7 +37,9 @@ export default {
         default_item:{id:0,name:"",ordering:99,status:'Active'},
         //pagination:{current_page:1,items_per_page:50,num_itemshowing:0,num_items:10,page_options: [10,20, 50, 100, 500]},
         pagination:{current_page:1,items_per_page:5,num_item_showing:0,num_items:0},
-        max_level:0,
+        max_modules_tasks_level:1,
+        modules_tasks:[],
+        max_module_task_action:8,
         reload_items:true
       }
     },
@@ -54,15 +56,20 @@ export default {
         this.method='list';
         this.get_items();
       }
-      else if(route.path=="/sys_module_task/add")
+      else if(route.path=="/sys_user_group/add")
       {
         this.method='add';
         this.add_edit(0);
       }
-      else if(route.path.indexOf("/sys_module_task/edit/")!=-1)
+      else if(route.path.indexOf("/sys_user_group/edit/")!=-1)
       {
         this.method='edit';        
         this.add_edit(route.params['item_id']);        
+      }
+      else if(route.path.indexOf("/sys_user_group/role/")!=-1)
+      {
+        this.method='role';        
+        //this.add_edit(route.params['item_id']);        
       }
     },
     init:function()
@@ -88,7 +95,14 @@ export default {
                 {
                   this.columns.hidden_columns=response.data.hidden_columns;
                 }               
+                if(response.data.max_module_task_action)  
+                {
+                  this.max_module_task_action=response.data.max_module_task_action;
+                }               
+                this.max_modules_tasks_level=response.data.max_modules_tasks_level;
+                this.modules_tasks=response.data.modules_tasks;  
                 this.$system_variables.status_task_loaded=1;
+
                 this.set_control_columns();
                 this.set_filter_columns();
                 this.set_display_columns();  
@@ -122,8 +136,8 @@ export default {
     set_display_columns:function()
     {
       var columns={};
-      columns['actions']={label:this.$system_variables.get_label('Label_action'), hidden:this.columns.false,sticky_column:true};
-      columns['id']={label:this.$system_variables.get_label('label_id'), hidden:this.columns.hidden_columns.indexOf('id')>=0?true:false,sticky_column:false,sortable:false};
+      columns['actions']={label:this.$system_variables.get_label('Label_action'), hidden:this.columns.false,sticky_column:false};//cannot set it sticky becuase dropdown will goes bellow
+      columns['id']={label:this.$system_variables.get_label('label_id'), hidden:this.columns.hidden_columns.indexOf('id')>=0?true:false,sticky_column:true,sortable:false};
       columns['name']={label:this.$system_variables.get_label('label_name'), hidden:this.columns.hidden_columns.indexOf('name')>=0?true:false,sticky_column:false,sortable:false};
       columns['ordering']={label:this.$system_variables.get_label('label_ordering'), hidden:this.columns.hidden_columns.indexOf('ordering')>=0?true:false,sticky_column:false,sortable:false};
       columns['status']={label:this.$system_variables.get_label('label_status'), hidden:this.columns.hidden_columns.indexOf('status')>=0?true:false,sticky_column:false,sortable:false};
@@ -160,7 +174,7 @@ export default {
     },
     add_edit:function(item_id)
     {
-      if(item_id>0)
+      /*if(item_id>0)
       {
         if(!(this.permissions.action2))
         {
@@ -212,7 +226,7 @@ export default {
           this.item={};//need to reset       
           Object.assign(this.item, this.default_item);          
         }        
-      } 
+      } */
        
     },
     getItems:function()

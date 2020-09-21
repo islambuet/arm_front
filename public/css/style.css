@@ -222,3 +222,15 @@ a:focus {
     .has_action_column_first table td:first-child {display:none}
     .has_action_column_first table th:first-child {display:none}
    }
+
+   /* overwrite bootstrap css */
+.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show > .btn-primary.dropdown-toggle {
+    color: #fff;
+    background-color: #FF4500;
+    border-color: #f06292;    
+}
+.btn-success:not(:disabled):not(.disabled).active, .btn-success:not(:disabled):not(.disabled):active, .show > .btn-success.dropdown-toggle {
+    color: #fff;
+    background-color: #FF4500;
+    border-color: #f06292;
+}
