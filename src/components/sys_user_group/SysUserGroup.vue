@@ -3,6 +3,7 @@
      <div v-if="$system_variables.status_task_loaded==1">
     <List v-show="method=='list'"/>    
     <Role v-show="method=='role'"/>    
+    <AddEdit v-show="method=='add' || method=='edit'"/> 
     </div>
   </div>
   
@@ -12,10 +13,11 @@
 <script>
 import List from './List.vue'
 import Role from './Role.vue'
+import AddEdit from './AddEdit.vue'
 export default {
     name: 'SysModuleTask',
     components: {
-        List,Role//,AddEdit   
+        List,Role,AddEdit   
     },
     mounted:function()
     {
@@ -140,6 +142,7 @@ export default {
       columns['actions']={label:this.$system_variables.get_label('Label_action'), hidden:this.columns.false,sticky_column:false};//cannot set it sticky becuase dropdown will goes bellow
       columns['id']={label:this.$system_variables.get_label('label_id'), hidden:this.columns.hidden_columns.indexOf('id')>=0?true:false,sticky_column:true,sortable:false};
       columns['name']={label:this.$system_variables.get_label('label_name'), hidden:this.columns.hidden_columns.indexOf('name')>=0?true:false,sticky_column:false,sortable:false};
+      columns['num_tasks']={label:this.$system_variables.get_label_task('num_tasks'), hidden:this.columns.hidden_columns.indexOf('num_tasks')>=0?true:false,sticky_column:false,sortable:false};
       columns['ordering']={label:this.$system_variables.get_label('label_ordering'), hidden:this.columns.hidden_columns.indexOf('ordering')>=0?true:false,sticky_column:false,sortable:false};
       columns['status']={label:this.$system_variables.get_label('label_status'), hidden:this.columns.hidden_columns.indexOf('status')>=0?true:false,sticky_column:false,sortable:false};
       this.columns.display_columns=this.$system_functions.get_display_columns(columns); 
@@ -175,11 +178,10 @@ export default {
     },
     add_edit:function(item_id)
     {
-      /*if(item_id>0)
+      if(item_id>0)
       {
         if(!(this.permissions.action2))
-        {
-          
+        { 
           this.$system_variables.status_task_loaded=-2;
         }
         else
@@ -188,13 +190,13 @@ export default {
           var form_data=new FormData();
           form_data.append ('token_auth', this.$system_variables.user.token_auth);                  
           form_data.append ('item_id', item_id);
-          this.$axios.post('/sys_module_task/get_item',form_data)
+          this.$axios.post('/sys_user_group/get_item',form_data)
           .then(response=>{          
             this.$system_variables.status_data_loaded=1;
             if(response.data.error_type)        
             {            
               this.$bvToast.toast(this.$system_variables.get_label(response.data.error_type), {title: this.$system_variables.get_label('label_error'),variant:'danger',autoHideDelay: 5000,appendToast: false});
-              this.$router.push("/variety");
+              this.$router.push("/sys_user_group");
             }
             else
             {
@@ -205,14 +207,14 @@ export default {
               else
               {
                 this.$bvToast.toast(this.$system_variables.get_label('Data Not Found'), {title: this.$system_variables.get_label('label_error'),variant:'danger',autoHideDelay: 5000,appendToast: false});
-                this.$router.push("/variety");
+                this.$router.push("/sys_user_group");
               }
             }        
           })
           .catch(error => {   
             this.$system_variables.status_data_loaded=1;
             this.$bvToast.toast(this.$system_variables.get_label("Response Error"), {title: this.$system_variables.get_label('label_error'),variant:'danger',autoHideDelay: 5000,appendToast: false});  
-            this.$router.push("/variety");            
+            this.$router.push("/sys_user_group");            
           });
         }
       }
@@ -227,7 +229,7 @@ export default {
           this.item={};//need to reset       
           Object.assign(this.item, this.default_item);          
         }        
-      } */
+      } 
        
     },
     role:function(item_id)
@@ -277,50 +279,7 @@ export default {
       {
         this.$system_variables.status_task_loaded=-2;        
       }
-    },
-    getItems:function()
-    {
-      if(this.reloadItems)
-      {
-        this.$systemVariables.statusDataLoaded=0;        
-        var formData=new FormData();
-        formData.append ('tokenAuth', this.$systemVariables.user.tokenAuth);      
-        formData.append ('pagination[itemsPerPage]', this.pagination.itemsPerPage);      
-        formData.append ('pagination[currentPage]', this.pagination.currentPage);      
-        this.$axios.post('/variety/get_items',formData)
-        .then(response=>{          
-         this.$systemVariables.statusDataLoaded=1;
-          if(response.data.errorString)        
-          {            
-            if(response.data.errorString==this.$systemResponse.NoAccess)
-            {
-              
-              this.$systemVariables.statusTaskLoaded=-2;
-            }
-            else
-            {    
-              
-              this.$systemVariables.statusTaskLoaded=-1;            
-            }
-          }
-          else
-          {  
-            this.items=response.data.items; 
-            this.pagination.numItems=response.data.numItems; 
-            this.reloadItems=false;
-          }        
-        })
-        .catch(error => {   
-          this.$systemVariables.statusDataLoaded=1;
-          this.$bvToast.toast('Server Error', {
-          title: 'Data Load Problem',
-          autoHideDelay: 5000,
-          appendToast: false
-        });  
-            //console.log(error);            
-        });
-      }
-    },
+    },    
   }
 }
 </script>

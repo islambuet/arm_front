@@ -10,5 +10,9 @@ export var labels={
     label_module_task_name:{
         en:"Module/task",
         bn:'মডিউল / টাস্ক'       
+    },
+    label_new:{
+        en:"New User Group",
+        bn:'মডিউল / টাস্ক'       
     }
 }

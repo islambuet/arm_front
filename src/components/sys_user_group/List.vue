@@ -58,6 +58,10 @@
                   </select>
                 </div>
               </template>
+              <template v-slot:cell(num_tasks)="data">
+                {{data.item.action_0.split(',').length-2}}
+                
+              </template>
               <template v-slot:cell(actions)="data">
                 <b-dropdown size="sm" :text="$system_variables.get_label('button_action')" dropright variant="primary" :class="'action_menu'">
                   <b-dropdown-item :to="'/sys_user_group/edit/'+data.item.id">{{$system_variables.get_label('action_edit')}}</b-dropdown-item>
