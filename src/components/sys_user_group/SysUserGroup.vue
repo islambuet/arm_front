@@ -42,7 +42,8 @@ export default {
         max_modules_tasks_level:1,
         modules_tasks:[],
         max_module_task_action:9,
-        reload_items:true
+        reload_items:true,
+        loaded_role:false
       }
     },
     watch: {
@@ -237,12 +238,12 @@ export default {
       if(item_id>0)
       {
         if(!(this.permissions.action2))
-        {
-          
+        { 
           this.$system_variables.status_task_loaded=-2;
         }
         else
         {
+          this.loaded_role=false;//for reload role task
           this.$system_variables.status_data_loaded=0;        
           var form_data=new FormData();
           form_data.append ('token_auth', this.$system_variables.user.token_auth);                  
@@ -260,6 +261,7 @@ export default {
               if(response.data.item)  
               {
                 this.item=response.data.item; 
+                this.loaded_role=true;//reseted
               }
               else
               {

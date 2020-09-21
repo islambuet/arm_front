@@ -7,7 +7,7 @@
           </div>
       </div>
       
-      <div id="accordion" class="d-print-none">        
+      <div id="accordion" class="d-print-none" v-if="$parent.loaded_role">        
         <div v-for="(modules_tasks_gropus, root_name) in get_modules_tasks_tree" :key="root_name"> 
           <form :id="'form_save_'+modules_tasks_gropus.modules_tasks[0].id">
             <div class="card mb-2">
@@ -42,11 +42,12 @@
                             <label v-if="module_task.type=='TASK'">
                               <input type="checkbox" 
                               :class="'header_action_'+i+' header_action_'+i+'_'+modules_tasks_gropus.modules_tasks[0].id+' '+module_task.parent_class+' '+'parent_'+module_task.id" 
-                              v-model="module_task['action_'+i]" 
+                              v-model="module_task['action_'+i]"
                               value="1"
                               :name="'tasks['+module_task.id+'][actions]['+i+']'"
                               :title="$system_variables.get_label('action_'+i)"
                               />
+                              {{module_task['action_'+i]}}
                             </label>
                           </td>
                         </tr>
@@ -80,7 +81,7 @@ export default {
             }
             else
             {
-                $('.'+$(this).attr('data-type')).prop('checked', false);
+              $('.'+$(this).attr('data-type')).prop('checked', false);
             }
         });
         $(document).off("click", ".task_action");
@@ -89,11 +90,16 @@ export default {
 
             if($(this).is(':checked'))
             {
+              //$('.parent_'+$(this).attr('data-id')).attr('checked','checked');
+              
                 //$('.task_action_'+$(this).attr('data-id')+':not(.header_action_3,.header_action_4)').prop('checked', true);
-                $('.parent_'+$(this).attr('data-id')+':not(.header_action_3)').prop('checked', true);
+                //$('.parent_'+$(this).attr('data-id')+':not(.header_action_3)').prop('checked', true);
+                $('.parent_'+$(this).attr('data-id')+':not(.header_action_3,.header_action_7,.header_action_8)').prop('checked', true);
             }
             else
             {
+              //$('.parent_'+$(this).attr('data-id')).removeAttr('checked');
+              
                 $('.parent_'+$(this).attr('data-id')).prop('checked', false);
             }
         });
