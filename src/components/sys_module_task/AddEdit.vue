@@ -30,6 +30,12 @@
                 </b-col>                
               </b-row>
               <b-row class="mb-2">
+                <b-col cols="4" class="text-right"><label>{{$system_variables.get_label_task('icon_class')}}</label></b-col>
+                <b-col cols="8" sm="4">
+                  <input type="text" name="item[icon_class]" v-model="$parent.item.icon_class" class="form-control" />
+                </b-col>                
+              </b-row>
+              <b-row class="mb-2">
                 <b-col cols="4" class="text-right"><label>{{$system_variables.get_label('label_type')}}</label></b-col>
                 <b-col cols="8" sm="4">
                   <select class="form-control" v-model="$parent.item.type" name="item[type]" >
