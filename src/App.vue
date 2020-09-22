@@ -45,8 +45,32 @@ export default {
   methods:{
     init: function()
     {
-      this.status_site_loaded=1;
-      this.status_task_loaded=1;
+      this.status_site_loaded=0;
+      this.$system_variables.status_task_loaded=1;//avoid multiple loading scrree      
+      this.$system_variables.status_data_loaded=1;      
+      var form_data=new FormData();
+      form_data.append ('token_auth', this.$system_variables.user.token_auth);
+      this.$axios.all([      
+          this.$axios.post('/users/get_tasks',form_data),          
+        ])
+        .then(this.$axios.spread((users_tasks) => 
+        {
+          if(users_tasks.data.error_type)        
+          {            
+              this.status_site_loaded=-1;
+              this.$bvToast.toast(this.$system_variables.get_label(response.data.error_type), {title: this.$system_variables.get_label('label_error'),variant:'danger',autoHideDelay: 5000,appendToast: false});
+
+          }
+          else
+          {
+            this.$system_variables.users.tasks=users_tasks.data.tasks;
+            this.status_site_loaded=1;
+            
+          }        
+        })).catch(error => {  
+          this.status_site_loaded=-1;
+            
+        });
     },
   }
 }
