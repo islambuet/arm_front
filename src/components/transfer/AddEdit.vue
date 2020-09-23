@@ -65,6 +65,7 @@
               <table class="table table-bordered">
                 <thead> 
                   <tr>
+                    <th rowspan="2">ID</th>
                     <th rowspan="2">Crop</th>
                     <th rowspan="2">Type</th>
                     <th rowspan="2">Variety</th>
@@ -84,6 +85,7 @@
                 </thead>
                 <tbody>
                   <tr v-for="(item_add, index) in items_add" :key="index" :data-key="index">
+                    <td>{{item_add.id}}</td>
                     <td>{{item_add.crop_name}}</td>
                     <td>{{item_add.type_name}}</td>
                     <td>{{item_add.variety_name}}</td>
@@ -93,14 +95,14 @@
                     <td>{{item_add.stock_current_pkt}}</td>
                     <td>{{item_add.stock_current_kg}}</td>
                     <td><input type="text" class="form-control" v-model="item_add.quantity_order_pkt" :name="'item_variety['+item_add.id+']'"></td>
-                    <td>{{item_add.quantity_order_kg}}</td>
+                    <td>{{item_add.quantity_order_pkt / 1000}}</td>
                     <td @click="add_more_remove($event, index)"><Button type="button" class="btn btn-danger">X</Button></td>
                   </tr>
                 </tbody>
                 <tfoot>
                   <tr>
-                    <th colspan="8"> Total: </th>
-                    <th>{{total_packet}}</th>
+                    <th colspan="9"> Total: </th>
+                    <th>{{computedTotal}}</th>
                     <th colspan="2"> </th>
                   </tr>
                 </tfoot>
@@ -125,7 +127,13 @@ export default {
     }
   },
   computed:{
-    
+    computedTotal:function(){
+      var total = 0;
+      for(var i=0; i<this.items_add.length; i++){
+        total +=parseFloat(this.items_add[i].quantity_order_pkt);
+      }
+      return total;
+    }
   }, 
   methods:{
     on_change_crop:function(){ 
@@ -139,6 +147,10 @@ export default {
       var variety_pack_info = this.$parent.variety_pack_info[variety_pack_id];
       if(!variety_pack_info){
         return this.$bvToast.toast('No data found.', {title: this.$system_variables.get_label('label_error'),variant:'danger',autoHideDelay: 5000,appendToast: false});   
+      }
+      var search = this.items_add.filter((e)=>e.id == variety_pack_id )
+      if(search.length>0){
+        return this.$bvToast.toast(search[0].variety_name + ' already selected.', {title: this.$system_variables.get_label('label_error'),variant:'danger',autoHideDelay: 5000,appendToast: false});   
       }
       this.items_add.push(
         { 
