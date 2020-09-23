@@ -140,10 +140,17 @@ export default {
     set_display_columns:function()
     {
       var columns={};
+<<<<<<< HEAD
       columns['actions']={label:this.$system_variables.get_label('label_action'), hidden:this.columns.false,sticky_column:false};//cannot set it sticky becuase dropdown will goes bellow
       columns['id']={label:this.$system_variables.get_label('label_id'), hidden:this.columns.hidden_columns.indexOf('id')>=0?true:false,sticky_column:true,sortable:false};
       columns['name']={label:this.$system_variables.get_label('label_name'), hidden:this.columns.hidden_columns.indexOf('name')>=0?true:false,sticky_column:false,sortable:false};
       columns['num_tasks']={label:this.$system_variables.get_label('label_num_tasks'), hidden:this.columns.hidden_columns.indexOf('num_tasks')>=0?true:false,sticky_column:false,sortable:false};
+=======
+      columns['actions']={label:this.$system_variables.get_label('Label_action'), hidden:this.columns.false,sticky_column:false};//cannot set it sticky becuase dropdown will goes bellow
+      columns['id']={label:this.$system_variables.get_label('label_id'), hidden:this.columns.hidden_columns.indexOf('id')>=0?true:false,sticky_column:true,sortable:false};
+      columns['name']={label:this.$system_variables.get_label('label_name'), hidden:this.columns.hidden_columns.indexOf('name')>=0?true:false,sticky_column:false,sortable:false};
+      columns['num_tasks']={label:this.$system_variables.get_label_task('num_tasks'), hidden:this.columns.hidden_columns.indexOf('num_tasks')>=0?true:false,sticky_column:false,sortable:false};
+>>>>>>> maraj
       columns['ordering']={label:this.$system_variables.get_label('label_ordering'), hidden:this.columns.hidden_columns.indexOf('ordering')>=0?true:false,sticky_column:false,sortable:false};
       columns['status']={label:this.$system_variables.get_label('label_status'), hidden:this.columns.hidden_columns.indexOf('status')>=0?true:false,sticky_column:false,sortable:false};
       this.columns.display_columns=this.$system_functions.get_display_columns(columns); 

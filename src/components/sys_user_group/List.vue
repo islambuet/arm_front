@@ -4,6 +4,7 @@
       <div class="card d-print-none mb-2">
         <div class="card-body">
             <!-- 0=view,1=add,2=edit,3=delete,4=forward,5=print,6=csv,7=filter,8=column header -->
+<<<<<<< HEAD
             <router-link  to="/sys_user_group/add" :class="'btn btn-success mr-2 mb-2'" >{{$system_variables.get_label('button_new')}}</router-link>            
             <b-button onclick="window.print();" class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action5" >{{$system_variables.get_label('button_print')}}</b-button>
             <b-button @click="$system_functions.export_csv(get_csv_headers,modified_items)" class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action6" >{{$system_variables.get_label('button_csv')}}</b-button>          
@@ -11,6 +12,15 @@
             <b-button class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action8" :pressed.sync="show_column_controls">{{$system_variables.get_label('button_column_control')}}</b-button>
             
             <b-button class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action0" @click="$parent.init" >{{$system_variables.get_label('button_refresh')}}</b-button>
+=======
+            <router-link  to="/sys_user_group/add" :class="'btn btn-success mr-2 mb-2'" >{{$system_variables.get_label('action_new')}}</router-link>            
+            <b-button onclick="window.print();" class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action5" >{{$system_variables.get_label('action_print')}}</b-button>
+            <b-button @click="$system_functions.export_csv(get_csv_headers,modified_items)" class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action6" >{{$system_variables.get_label('action_csv')}}</b-button>          
+            <b-button class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action7" :pressed.sync="show_fitler_options">{{$system_variables.get_label('action_search')}}</b-button>
+            <b-button class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action8" :pressed.sync="show_column_controls">{{$system_variables.get_label('action_column_control')}}</b-button>
+            
+            <b-button class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action0" @click="$parent.init" >{{$system_variables.get_label('action_refresh')}}</b-button>
+>>>>>>> maraj
         </div>
       </div>
       <div class="card d-print-none mb-2" v-if="show_column_controls">
@@ -33,7 +43,11 @@
               :sort-compare-options="{ numeric: true}"                        
               >
               <template v-slot:head(id)="data">
+<<<<<<< HEAD
                 <div>{{data.label}}</div>
+=======
+                <div>{{ data.label}}</div>
+>>>>>>> maraj
                 <div v-if="show_fitler_options" class="d-print-none">
                   {{$system_variables.get_label('label_from')}}<input type="text" v-model="$parent.columns.filter_columns['id'].fitler_from.value" class="form-control" />
                   {{$system_variables.get_label('label_to')}}<input type="text" v-model="$parent.columns.filter_columns['id'].fitler_to.value" class="form-control" />

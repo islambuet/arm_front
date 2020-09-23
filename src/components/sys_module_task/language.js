@@ -7,6 +7,7 @@ export var labels={
         en:"Name(English)",
         bn:'Name(English)'       
     },    
+<<<<<<< HEAD
     label_name_bn:{
         en:"Name(Bangla)",
         bn:'নাম(বাংলা)'       
@@ -15,4 +16,10 @@ export var labels={
         en:"Icon class",
         bn:"আইকন এর ক্লাস"
     }, 
+=======
+    label_name_en:{
+        en:"Name(Bangla)",
+        bn:'নাম(বাংলা)'       
+    },
+>>>>>>> maraj
 }
