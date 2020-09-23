@@ -1,51 +1,42 @@
 <template>
     <div>
-        <div>
+        <div v-if="pagination.page_options">
             <ul class="pagination mb-0">
-                <li class="float-left mr-2"><p class=" p-2">{{$systemVariables.getLabel('LabelitemsPerPage')}} </p></li >            
+                <li class="float-left mr-2"><p class=" p-2">{{$system_variables.get_label('label_items_per_page')}} </p></li >
                 <li class="float-left page-item  mr-2">
-                    <select class="form-control" v-model="pagination.itemsPerPage" @change="pagination.currentPage=1;onChangePage()" >
-                        <option v-for="(option, index) in pagination.pageOptions" :key="index" :value="option">
+                    <select class="form-control" v-model="pagination.items_per_page" @change="pagination.current_page=1;on_change_page()" >
+                        <option v-for="(option, index) in pagination.page_options" :key="index" :value="option">
                             {{ option }}
                         </option>
                     </select>
                 </li>   
-                <li class="float-left mr-2"><p class=" p-2">{{$systemVariables.getLabel('LabelGoToPage')}}</p></li >            
+                <li class="float-left mr-2"><p class=" p-2">{{$system_variables.get_label('label_go_to_page')}}</p></li > 
                 <li class="float-left page-item  mr-2">
-                    <select class="form-control" v-model="pagination.currentPage" @change="onChangePage()" >
-                        <option v-for="(option, index) in Math.ceil(pagination.numItems/pagination.itemsPerPage)" :key="index" :value="option">
+                    <select class="form-control" v-model="pagination.current_page" @change="on_change_page()" >
+                        <option v-for="(option, index) in Math.ceil(pagination.num_items/pagination.items_per_page)" :key="index" :value="option">
                             {{ option }}
                         </option>
                     </select>
-                </li>  
-                <li class="float-left page-item" :class="{ 'disabled': pagination.currentPage<2 }">
-                    <a class="page-link" @click.prevent="--pagination.currentPage;onChangePage()">&laquo; {{$systemVariables.getLabel('LabelPreviousPage')}}</a>
+                </li> 
+                <li class="float-left page-item" :class="{ 'disabled': pagination.current_page<2 }">
+                    <a class="page-link" @click.prevent="--pagination.current_page;on_change_page()">&laquo; {{$system_variables.get_label('label_previous_page')}}</a>
                 </li>
-                <li class="float-left page-item" :class="{ 'disabled': pagination.currentPage>=Math.ceil(pagination.totalItems/pagination.itemsPerPage)}">
-                    <a class="page-link" @click.prevent="++pagination.currentPage;onChangePage()">{{$systemVariables.getLabel('LabelNextPage')}} &raquo;</a>
-                </li>                            
+                <li class="float-left page-item" :class="{ 'disabled': pagination.current_page>=Math.ceil(pagination.num_items/pagination.items_per_page)}">
+                    <a class="page-link" @click.prevent="++pagination.current_page;on_change_page()">{{$system_variables.get_label('label_next_page')}} &raquo;</a>
+                </li>           
+                                           
             </ul>
         </div>
         <div class="text-center">
-                <ul class="pagination">
-                    <li class="float-left mr-2"><p class=" p-2">{{$systemVariables.getLabel('LableDisplayingItem1')}}:</p></li >            
-                    <li class="float-left page-item  mr-2">
-                        <p class=" p-2">{{(pagination.currentPage-1)*pagination.itemsPerPage}}-{{(pagination.currentPage)*pagination.itemsPerPage}}</p>
-                    </li>  
-                    <li class="float-left mr-2"><p class=" p-2">{{$systemVariables.getLabel('LableDisplayingItem2')}}:</p></li >            
-                    <li class="float-left page-item  mr-2">
-                        <p class=" p-2">{{pagination.numItemshowing}}</p>
-                    </li> 
-                    <li class="float-left mr-2"><p class=" p-2">{{$systemVariables.getLabel('LabelTotalItem')}}:</p></li >            
-                    <li class="float-left page-item  mr-2">
-                        <p class=" p-2">{{pagination.numItems}}</p>
-                    </li> 
-                                     
-                </ul>                
+            <ul class="pagination mb-0">
+                <li class="float-left mr-2" v-if="pagination.page_options"><p class=" p-2">{{$system_variables.get_label('label_displaying_range')}}:</p></li > 
+                <li class="float-left page-item  mr-2" v-if="pagination.page_options"><p class=" p-2">{{(pagination.current_page-1)*pagination.items_per_page}}-{{(pagination.current_page)*pagination.items_per_page}}</p></li>
+                <li class="float-left mr-2"><p class=" p-2">{{$system_variables.get_label('label_num_item_showing')}}:</p></li >
+                <li class="float-left page-item  mr-2"><p class=" p-2">{{pagination.num_item_showing}}</p></li>
+                <li class="float-left mr-2"><p class=" p-2">{{$system_variables.get_label('label_num_items')}}:</p></li >
+                <li class="float-left page-item  mr-2"><p class=" p-2">{{pagination.num_items}}</p></li>
+            </ul>                
         </div>
-
-            
-        </b-row>
     </div>
 </template>
 
@@ -53,10 +44,13 @@
 export default { 
   name: "Pagination",   
   props: {
-        onChangePage: Function,        
+        on_change_page: {
+            type: Function,
+            default: ()=> (console.log('default on page changed called'))            
+        },        
         pagination:{
             type: Object,
-            default: () => ({currentPage:1,itemsPerPage:50,numItemshowing:0,numItems:10,pageOptions: [10,20, 30, 50, 500,100]}
+            default: () => ({current_page:1,items_per_page:50,num_item_showing:0,num_items:10,page_options: [10,20, 30, 50, 100]}
                 )            
         },
     },    

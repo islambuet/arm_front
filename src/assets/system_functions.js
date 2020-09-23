@@ -34,123 +34,109 @@ var system_functions= new Vue(
                 {
                     day='0'+day;
                 }
-                return day+'-'+date.toLocaleString('default', { month: 'short' })+'-'+date.getFullYear();
+                return day+'-'+date.toLocaleString('en-GB', { month: 'short' })+'-'+date.getFullYear();
                 //return date.toDateString().substr(0,19);
             }
             else
             {
                 return '';
             }            
-        },
-        //column preferene
-        save_preference:function(event,formId,bvToast) 
-        {
-            // this.$systemVariables.statusSaving=1;        
-            // var formData=new FormData(document.getElementById(formId));
-            // formData.append ('tokenAuth', this.$systemVariables.user.tokenAuth);      
-                
-                    
-            // this.$axios.post('/variety/save_preferences',formData)
-            // .then(response=>{          
-            //     this.$systemVariables.statusSaving=0;
-            //     if(response.data.errorString)        
-            //     {            
-            //         if(response.data.errorString==this.$systemResponse.NoAccess)
-            //         { 
-            //             this.$systemVariables.statusTaskLoaded=-2;
-            //         }
-            //         else
-            //         {
-            //             this.$systemVariables.statusDataLoaded=1;
-            //             bvToast.toast(response.data.errorString, {
-            //                 title: 'Error',
-            //                 autoHideDelay: 5000,
-            //                 appendToast: false    
-            //             });
-            //         }          
-            //     }
-            //     else
-            //     {   
-            //         bvToast.toast("Preference saved Succesfully", {
-            //             title: 'Success',
-            //             autoHideDelay: 5000,
-            //             appendToast: false    
-            //         });
-            //     }        
-            // })
-            // .catch(error => {   
-            //     this.$systemVariables.statusSaving=0;
-            //     bvToast.toast('Server Error', {
-            //     title: 'Save Problem',
-            //     autoHideDelay: 5000,
-            //     appendToast: false
-            //     });     
-            //     console.log("here");
-            // });
-        },
+        },        
         //filter section
+        //get display formated columns. columns=columns.display_columns
+        get_display_columns:function(columns)
+        {
+            var display_columns=[];
+            for(var field in columns)
+            { 
+                var column=columns[field];
+                if(!column['hidden'])
+                { 
+                var display_column = {};
+                display_column['key']=field;
+                display_column['label']=column['label'];
+                if(column['sticky_column'])
+                {
+                    display_column['stickyColumn']=column['sticky_column'];
+                }
+                if(column['field_type']=='date')
+                {
+                    var thisObj=this;
+                    display_column['field_type']='date';
+                    display_column['formatter']=function(value, key, item){ return thisObj.$system_functions.display_date(value)};
+                }
+                if(column['sortable'])
+                {
+                    display_column['sortable']=column['sortable'];             
+                }   
+                display_columns.push(display_column);      
+                }
+            }  
+            return display_columns;            
+        },
+        //for filter drop down on change
         on_change_filter_option:function(event,columns, field) 
         {
             if(columns[field]['child'])
             {
                 //resttings childs
-                for (var i=0; i < columns[field]['child']['resetFields'].length; i++)
+                for (var i=0; i < columns[field]['child']['reset_fields'].length; i++)
                 {
-                    var resetField = columns[field]['child']['resetFields'][i];                    
-                    columns[resetField].options = [];
-                    columns[resetField].value = columns[resetField].defaultValue;
+                    var reset_field = columns[field]['child']['reset_fields'][i];                    
+                    columns[reset_field].options = [];
+                    columns[reset_field].value = columns[reset_field].default_value;
                 }
                 //setting childs options
                 columns[columns[field]['child']['field']]['options']=columns[field]['child']['options'][columns[field]['value']];
             }
         },
-        //b-table filtering
-        get_filter_items:function (items,filterColumns)
+        //b-table filtering filter_coulumns=columns.filter_columns
+        get_filter_items:function (items,filter_columns)
         {   
             return items.filter((item)=>{            
-                for(var field in filterColumns)
+                for(var field in filter_columns)
                 {
-                    var filterColumn=filterColumns[field];
-                    if(filterColumn['filtertype']=='list')
+                    var filter_column=filter_columns[field];
+                    if(filter_column['filter_type']=='list')
                     {
-                        if(filterColumn['value']!='')
+                        if(filter_column['value']!='')
                         {                     
-                            if(item[field]!=filterColumn['value'])
+                            if(item[field]!=filter_column['value'])
                             {                         
                                 return false;
                             }                    
                         }
                     }
-                    else if(filterColumn['filtertype']=='number')
+                    else if(filter_column['filter_type']=='number')
                     {   
-                        if(filterColumn['fitlerFrom']['value'].length>0)
+                        if(filter_column['fitler_from']['value'].length>0)
                         {
-                            if(parseFloat(item[field])<parseFloat(filterColumn['fitlerFrom']['value']))
+                            if(parseFloat(item[field])<parseFloat(filter_column['fitler_from']['value']))
                             {                        
                                 return false;
                             }
                         }
-                        if(filterColumn['fitlerTo']['value'].length>0)
+                        if(filter_column['fitler_to']['value'].length>0)
                         {
-                            if(parseFloat(item[field])>parseFloat(filterColumn['fitlerTo']['value']))
+                            if(parseFloat(item[field])>parseFloat(filter_column['fitler_to']['value']))
                             {                        
                                 return false;
                             }
                         }
                     }
-                    else if(filterColumn['filtertype']=='date')
+                    else if(filter_column['filter_type']=='date')
                     {
-                        if(filterColumn['fitlerStart']['value'].length>0)
+                        if(filter_column['fitler_start']['value'].length>0)
                         {                            
-                            var starttime=new Date(filterColumn['fitlerStart']['value']).getTime() / 1000;
+                            var starttime=new Date(filter_column['fitler_start']['value']).getTime() / 1000;
                             if(parseFloat(item[field])<starttime)
                             {                        
                                 return false;
                             }
                         }
-                        if(filterColumn['fitlerEnd']['value'].length>0)
+                        if(filter_column['fitler_end']['value'].length>0)
                         {                            
-                            var endtime=new Date(filterColumn['fitlerEnd']['value']).getTime() / 1000;
+                            var endtime=new Date(filter_column['fitler_end']['value']).getTime() / 1000;
                             if(parseFloat(item[field])>endtime)
                             {                        
                                 return false;
@@ -159,10 +145,10 @@ var system_functions= new Vue(
                     }
                     else
                     {
-                        if(filterColumn['value'].length>0)
+                        if(filter_column['value'].length>0)
                         {
                                                         
-                            if(item[field].toLowerCase().indexOf(filterColumn['value'].toLowerCase())==-1)
+                            if(item[field].toLowerCase().indexOf(filter_column['value'].toLowerCase())==-1)
                             {
                                 return false;
                             }                          
