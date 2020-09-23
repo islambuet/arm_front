@@ -33,7 +33,6 @@ function initial_data()
 }
 //const initialData = () => ({})
 
-
 var system_variables= new Vue(
     {    
       data:function(){  
