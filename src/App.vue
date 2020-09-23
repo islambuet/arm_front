@@ -35,11 +35,13 @@ export default {
   mounted: function()//before create
   { 
     this.$system_variables.labels=this.$system_functions.load_languages([
+      {language:this.$system_variables.language,file:'languages/action.js'},
+      {language:this.$system_variables.language,file:'languages/button.js'},
+      {language:this.$system_variables.language,file:'languages/label.js'},
+      {language:this.$system_variables.language,file:'languages/message.js'},
       {language:this.$system_variables.language,file:'languages/response.js'},
-      {language:this.$system_variables.language,file:'languages/theme.js'},
-      {language:this.$system_variables.language,file:'languages/buttons.js'},
     ]);         
-    document.title=this.$system_variables.get_label('site_title');
+    document.title=this.$system_variables.get_label('label_site_title');
     this.init();   
   },
   methods:{
@@ -58,18 +60,22 @@ export default {
           if(users_tasks.data.error_type)        
           {            
               this.status_site_loaded=-1;
-              this.$bvToast.toast(this.$system_variables.get_label(response.data.error_type), {title: this.$system_variables.get_label('label_error'),variant:'danger',autoHideDelay: 5000,appendToast: false});
-
+              this.$bvToast.toast(this.$system_variables.get_label(response.data.error_type), 
+                {
+                  title: this.$system_variables.get_label('label_error'),
+                  variant:'danger',
+                  autoHideDelay: 5000,
+                  appendToast: false
+                }
+              );
           }
           else
           {
             this.$system_variables.users.tasks=users_tasks.data.tasks;
             this.status_site_loaded=1;
-            
-          }        
+          }
         })).catch(error => {  
           this.status_site_loaded=-1;
-            
         });
     },
   }

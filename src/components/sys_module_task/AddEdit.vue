@@ -18,31 +18,19 @@
             <form id="form_save">
               <input type="hidden" name="item_id" :value="$parent.item.id">
               <b-row class="mb-2">
-<<<<<<< HEAD
                 <b-col cols="4" class="text-right"><label>{{$system_variables.get_label('label_name_en')}}</label></b-col>
-=======
-                <b-col cols="4" class="text-right"><label>{{$system_variables.get_label('name_en')}}</label></b-col>
->>>>>>> maraj
                 <b-col cols="8" sm="4">
                   <input type="text" name="item[name_en]" v-model="$parent.item.name_en" class="form-control" />
                 </b-col>                
               </b-row>
               <b-row class="mb-2">
-<<<<<<< HEAD
                 <b-col cols="4" class="text-right"><label>{{$system_variables.get_label('label_name_bn')}}</label></b-col>
-=======
-                <b-col cols="4" class="text-right"><label>{{$system_variables.get_label('name_bn')}}</label></b-col>
->>>>>>> maraj
                 <b-col cols="8" sm="4">
                   <input type="text" name="item[name_bn]" v-model="$parent.item.name_bn" class="form-control" />
                 </b-col>                
               </b-row>
               <b-row class="mb-2">
-<<<<<<< HEAD
                 <b-col cols="4" class="text-right"><label>{{$system_variables.get_label_task('label_icon_class')}}</label></b-col>
-=======
-                <b-col cols="4" class="text-right"><label>{{$system_variables.get_label_task('icon_class')}}</label></b-col>
->>>>>>> maraj
                 <b-col cols="8" sm="4">
                   <input type="text" name="item[icon_class]" v-model="$parent.item.icon_class" class="form-control" />
                 </b-col>                
@@ -70,31 +58,19 @@
                 </b-col>                
               </b-row>
               <b-row class="mb-2">
-<<<<<<< HEAD
                 <b-col cols="4" class="text-right"><label>{{$system_variables.get_label('label_controller_name')}}</label></b-col>
-=======
-                <b-col cols="4" class="text-right"><label>{{$system_variables.get_label('LABEL_CONTROLLER_NAME')}}</label></b-col>
->>>>>>> maraj
                 <b-col cols="8" sm="4">
                   <input type="text" name="item[controller]" v-model="$parent.item.controller" class="form-control" />
                 </b-col>                
               </b-row>
               <b-row class="mb-2">
-<<<<<<< HEAD
                 <b-col cols="4" class="text-right"><label>{{$system_variables.get_label('label_ordering')}}</label></b-col>
-=======
-                <b-col cols="4" class="text-right"><label>{{$system_variables.get_label('LABEL_ORDERING')}}</label></b-col>
->>>>>>> maraj
                 <b-col cols="8" sm="4">
                   <input type="number" name="item[ordering]" v-model="$parent.item.ordering" class="form-control" />
                 </b-col>                
               </b-row>
               <b-row class="mb-2">
-<<<<<<< HEAD
                 <b-col cols="4" class="text-right"><label>{{$system_variables.get_label('label_status')}}</label></b-col>
-=======
-                <b-col cols="4" class="text-right"><label>{{$system_variables.get_label('LABEL_STATUS')}}</label></b-col>
->>>>>>> maraj
                 <b-col cols="8" sm="4">
                   <select class="form-control" v-model="$parent.item.status" name="item[status]" >                        
                         <option v-for="(option, index) in ['Active','In-Active']" :key="index" :value="option">
@@ -104,11 +80,7 @@
                 </b-col>                              
               </b-row>
               <b-row class="mb-2">
-<<<<<<< HEAD
                 <b-col cols="4" class="text-right"><label>{{$system_variables.get_label('label_status_notification')}}</label></b-col>
-=======
-                <b-col cols="4" class="text-right"><label>{{$system_variables.get_label('LABEL_STATUS_NOTIFICATION')}}</label></b-col>
->>>>>>> maraj
                 <b-col cols="8" sm="4">
                   <select class="form-control" v-model="$parent.item.status_notification" name="item[status_notification]" >                        
                         <option v-for="(option, index) in ['Yes','No']" :key="index" :value="option">

@@ -198,6 +198,7 @@ var system_functions= new Vue(
             if('system_variable' in data) // System Variable
             {
                 for (const item in data.system_variable){
+                    // console.log(typeof (data.system_variable[item]))
                     if(typeof (data.system_variable[item]) === 'object'){
                         for(var info of data.system_variable[item]){
                             var key = String(Object.keys(info));  
@@ -206,6 +207,8 @@ var system_functions= new Vue(
                     } else {
                         this.$system_variables.user[item] = data.system_variable[item];
                     }
+                    
+
                 }
             }
         },
