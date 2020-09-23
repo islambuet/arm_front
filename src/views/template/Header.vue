@@ -38,7 +38,7 @@
         <!-- Users options -->
         <li>
             <a class="nav-link dropdown-toggle mr-0" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                <img v-bind:src="$system_variables.user.info.profilepicture" v-if="$system_variables.user.info.profilepicture" alt="profileImage" class="rounded-circle" style="height: 32px;width: 32px;">
+                <img v-bind:src="$system_variables.user.info.profile_picture" v-if="$system_variables.user.info.profile_picture" alt="profileImage" class="rounded-circle" style="height: 32px;width: 32px;">
                 <img v-bind:src="'/images/guest.png'" v-else alt="Image" class="rounded-circle" style="height: 32px;width: 32px;">
             </a>
             <div class="dropdown-menu dropdown-menu-right">
