@@ -14,7 +14,7 @@ function initial_data()
       info:{},
       tasks:[]
     },
-    users:{
+    visitors:{
       tasks:[]
     },
     status_task_loaded:0,    //Loading=0,success=1,failed=-1,acceesdenied=-2  for all page
@@ -40,14 +40,22 @@ var system_variables= new Vue(
         return tempdata;
       },
       methods:{        
-        reset_user:function () {          
-          this.$data.user=initial_data().user;
-        },
         get_label(key){        
           return this.labels[key]?this.labels[key]:key;
         },
         get_label_task(key){        
           return this.labels_task[key]?this.labels_task[key]:key;
+        },
+        set_user: function(data){
+          // data == object {token_auth: 'value'}, ...
+          for (var item in data){
+              this.user[item] = data[item];
+          }
+        },
+        logout: function(){
+          localStorage.setItem('token_auth','');
+          localStorage.setItem('token_csrf','');
+          this.user=initial_data().user;
         }
       }
     }
