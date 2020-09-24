@@ -1,5 +1,12 @@
 //for action and buttons both
 export var labels={
+<<<<<<< HEAD
+=======
+    msg_loading:{
+        en:"Data Loading ...",
+        bn:"ডেটা লোড ..."
+    },
+>>>>>>> development
     msg_loading_error_header:{
         en:"Data Loading Problem",
         bn:"ডেটা লোড সমস্যা"
