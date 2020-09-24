@@ -7,7 +7,7 @@
                         <b-alert v-if="error_message != ''" :variant="error_msg_variant" show dismissible><a href="#">{{error_message}}</a></b-alert>
                     </div>
                     <div>
-                        <p class="mt-2" v-html="this.form_title"></p>
+                        <p class="mt-2" v-html="form_title"></p>
                     </div>
                     <div class="mt-4">
                         <form id="form_login" class="system_ajax form-horizontal" @submit.prevent="login($event)" v-if="!otp_required">
@@ -60,24 +60,27 @@ export default {
     name: 'Login',
     components: { },
     mounted:function(){
-        this.init();
+        Object.assign(this.$system_variables.labels_task, this.$system_functions.load_languages([
+            {language:this.$system_variables.language,file:'components/login/language.js'},        
+        ]));
+        this.form_title = this.$system_variables.get_label_task('label_login_form_title');
     },
     data() {
         return {
             error_message_loading_fail: '',
             otp_required: false,
             token_sms: '',
-            form_title: 'Fill out the form below to login.',
             error_message: '',
             error_msg_variant: 'danger',
+            form_title: '',
         }
     },
     methods:{    
         init: function()
         { 
+            this.$system_variables.status_task_loaded=0;  
+            this.$system_variables.status_data_loaded=1;  
             this.reload_items=true;
-            this.$system_variables.status_task_loaded=1;
-            this.$system_variables.status_data_loaded=1;
         },         
         login: function(event)
         {
@@ -93,10 +96,20 @@ export default {
 
             this.$axios.post('/login',formData)
             .then(response=>{
-                if(response.data.error_type == 'USER_NAME_NOT_FOUND')
+                if(response.data.error_type == 'USER_NOT_FOUND')
                 {
-                    console.log(response.data);
-                    //this.error_message = this.$system_variables.get_label('USER_NAME_NOT_FOUND');
+                    this.error_message = this.$system_variables.get_label('USER_NOT_FOUND');
+                }
+                else if(response.data.error_type == 'PASSWORD_INCORRECT')
+                {
+                    this.error_message = this.$system_variables.get_label('PASSWORD_INCORRECT') + ' You can retry '+ response.data.remaining +' more time(s).';
+                }
+                else if(response.data.error_type == 'OTP_VERIFICATION_REQUIRED')
+                {
+                    this.token_sms = (response.data.token_sms) ? response.data.token_sms : '';
+                    this.error_message = this.$system_variables.get_label('OTP_VERIFICATION_REQUIRED');
+                    this.error_msg_variant = 'warning';
+                    this.otp_required = true;
                 }
                 // else if(response.data.status_code == 100)
                 // {
@@ -162,7 +175,7 @@ export default {
                 {
                     this.$parent.set_user_data(response.data.user.user);
                     localStorage.setItem('token_device', response.data.user.device.token_device)
-                    this.$router.push({name:'Home'}).catch(()=>{}); 
+                    this.$router.push({name:'Home'}).catch(()=>{});
                 }
                 this.$system_variables.status_data_loaded = 1;
             })

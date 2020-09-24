@@ -78,5 +78,5 @@ export var labels={
     label_controller_name:{
         en:"Controller name",
         bn:"কন্ট্রোলার এর নাম"
-    },   
+    },
 }

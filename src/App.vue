@@ -56,6 +56,7 @@ export default {
       this.status_site_loaded=0;
       this.$system_variables.status_task_loaded=1;//avoid multiple loading scrree      
       this.$system_variables.status_data_loaded=1;      
+
       var form_data=new FormData();
       form_data.append ('token_auth', this.$system_variables.user.token_auth);
       this.$axios.all([      
@@ -83,6 +84,8 @@ export default {
         })).catch(error => {  
           this.status_site_loaded=-1;
         });
+        
+        this.status_site_loaded=1;
     },
   }
 }
