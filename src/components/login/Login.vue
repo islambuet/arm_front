@@ -3,6 +3,9 @@
         <div class="container-fluid">
             <div class="row justify-content-center" v-if="$system_variables.status_data_loaded == 1">
                 <div class="card-body p-4 col-md-8 col-lg-8">
+                    <div style="min-height:80px">
+                        <b-alert v-if="error_message != ''" :variant="error_msg_variant" show dismissible><a href="#">{{error_message}}</a></b-alert>
+                    </div>
                     <div>
                         <p class="mt-2" v-html="this.form_title"></p>
                     </div>
@@ -30,8 +33,8 @@
 
                         <form id="form_otp" class="system_ajax form-horizontal" @submit.prevent="login_sms($event)">
                             <div class="form-group" v-if="otp_required">
-                                <div v-show="otp_error_message != ''">
-                                    <p class="mt-2" v-html="otp_error_message"></p>
+                                <div v-show="error_message != ''">
+                                    <p class="mt-2" v-html="error_message"></p>
                                 </div>
                                 <div class="input-group">
                                     <input type="hidden" name="token_sms" :value="token_sms"/>
@@ -65,7 +68,8 @@ export default {
             otp_required: false,
             token_sms: '',
             form_title: 'Fill out the form below to login.',
-            otp_error_message: ''
+            error_message: '',
+            error_msg_variant: 'danger',
         }
     },
     methods:{    
@@ -89,33 +93,31 @@ export default {
 
             this.$axios.post('/login',formData)
             .then(response=>{
-                if(response.data.status_code == 0)
+                if(response.data.error_type == 'USER_NAME_NOT_FOUND')
                 {
-                    this.error_message_loading_fail = response.data.message;
-                    this.$system_variables.labels.msgLoadingErrorHeader = response.data.message;
-                    this.$system_variables.labels.msgLoadingErrorSubHeader = response.data.message_warning;
-                    this.$system_variables.labels.msgLoadingErrorInfo = '';
+                    console.log(response.data);
+                    //this.error_message = this.$system_variables.get_label('USER_NAME_NOT_FOUND');
                 }
-                else if(response.data.status_code == 100)
-                {
-                    this.error_message_loading_fail = response.data.message;
-                    this.$system_variables.labels.msgLoadingErrorHeader = response.data.message;
-                    this.$system_variables.labels.msgLoadingErrorSubHeader = response.data.message_warning;
-                    this.$system_variables.labels.msgLoadingErrorInfo = '';
-                }
-                else if(response.data.status_code == 1101){
-                    this.token_sms = response.data.token_sms;
-                    this.formTitle = response.data.message_warning;
-                    //this.$parent.set_user_data(response.data.user);
-                    this.otp_required = true;
-                }
-                else
-                {                    
-                    this.$parent.set_user_data(response.data.user.user);                    
-                    // Device Token
-                    localStorage.setItem('token_device', response.data.user.device.token_device);
-                    this.$router.push({name:'Home'}).catch(()=>{}); 
-                }
+                // else if(response.data.status_code == 100)
+                // {
+                //     this.error_message_loading_fail = response.data.message;
+                //     this.$system_variables.labels.msgLoadingErrorHeader = response.data.message;
+                //     this.$system_variables.labels.msgLoadingErrorSubHeader = response.data.message_warning;
+                //     this.$system_variables.labels.msgLoadingErrorInfo = '';
+                // }
+                // else if(response.data.status_code == 1101){
+                //     this.token_sms = response.data.token_sms;
+                //     this.formTitle = response.data.message_warning;
+                //     //this.$parent.set_user_data(response.data.user);
+                //     this.otp_required = true;
+                // }
+                // else
+                // {                    
+                //     this.$parent.set_user_data(response.data.user.user);                    
+                //     // Device Token
+                //     localStorage.setItem('token_device', response.data.user.device.token_device);
+                //     this.$router.push({name:'Home'}).catch(()=>{}); 
+                // }
                 this.$system_variables.status_data_loaded = 1;
             })
             .catch(error => {
@@ -139,22 +141,22 @@ export default {
                 if(response.data.status_code == 110)
                 {
                     this.error_message_loading_fail = response.data.message;
-                    this.otp_error_message = '<b style="color:#ff0000">OTP Expired or, already used!</b>';
+                    this.error_message = '<b style="color:#ff0000">OTP Expired or, already used!</b>';
                 }
                 else if(response.data.status_code == 300) // OTP code not Found
                 {
                     this.error_message_loading_fail = response.data.message;
-                    this.otp_error_message = '<b style="color:#ff0000">OTP Code Not Found!</b>';
+                    this.error_message = '<b style="color:#ff0000">OTP Code Not Found!</b>';
                 }
                 else if(response.data.status_code == 301)
                 {
                     this.error_message_loading_fail = response.data.message;
-                    this.otp_error_message = '<b style="color:#ff0000">Incorrect OTP Code!</b>';
+                    this.error_message = '<b style="color:#ff0000">Incorrect OTP Code!</b>';
                 }
                 else if(response.data.status_code == 302)
                 {
                     this.error_message_loading_fail = response.data.message;
-                    this.otp_error_message = '<b style="color:#ff0000">Maximum OTP Retry Exceeded!</b>';
+                    this.error_message = '<b style="color:#ff0000">Maximum OTP Retry Exceeded!</b>';
                 }
                 else
                 {
