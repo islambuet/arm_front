@@ -34,6 +34,12 @@ export default {
   },
   mounted: function()//before create
   { 
+    // this.$system_variables.set_user({
+    //   maraj: {x:100, y:200}
+    // });
+    // console.log(this.$system_variables.user);
+    // this.$system_variables.logout();
+    // console.log(this.$system_variables.user);
     this.$system_variables.labels=this.$system_functions.load_languages([
       {language:this.$system_variables.language,file:'languages/action.js'},
       {language:this.$system_variables.language,file:'languages/button.js'},
@@ -71,7 +77,7 @@ export default {
           }
           else
           {
-            this.$system_variables.users.tasks=users_tasks.data.tasks;
+            this.$system_variables.visitors.tasks=users_tasks.data.tasks;
             this.status_site_loaded=1;
           }
         })).catch(error => {  

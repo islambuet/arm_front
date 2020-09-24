@@ -47,13 +47,13 @@
                 </div>
                 <!-- item-->
                 
-                <a href="<?php echo site_url('user/profile_picture');?>" class="system_ajax dropdown-item" v-if="$system_variables.user.id > 0">
+                <a href="#" class="system_ajax dropdown-item" v-if="$system_variables.user.id > 0">
                     <i class="fe-user"></i>
                     <span>Profile Picture</span>
                 </a>
 
                 <!-- item-->
-                <a href="<?php echo site_url('user/edit_password');?>" class="system_ajax dropdown-item" v-if="$system_variables.user.id > 0">
+                <a href="#" class="system_ajax dropdown-item" v-if="$system_variables.user.id > 0">
                     <i class="fe-lock"></i>
                     <span>Change Password</span>
 
