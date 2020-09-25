@@ -24,13 +24,21 @@
                 </b-col>                
               </b-row>
               <b-row class="mb-2">
+<<<<<<< HEAD
                 <b-col cols="4" class="text-right"><label>{{$system_variables.get_label('LABEL_ORDERING')}}</label></b-col>
+=======
+                <b-col cols="4" class="text-right"><label>{{$system_variables.get_label('label_ordering')}}</label></b-col>
+>>>>>>> development
                 <b-col cols="8" sm="4">
                   <input type="number" name="item[ordering]" v-model="$parent.item.ordering" class="form-control" />
                 </b-col>                
               </b-row>
               <b-row class="mb-2">
+<<<<<<< HEAD
                 <b-col cols="4" class="text-right"><label>{{$system_variables.get_label('LABEL_STATUS')}}</label></b-col>
+=======
+                <b-col cols="4" class="text-right"><label>{{$system_variables.get_label('label_status')}}</label></b-col>
+>>>>>>> development
                 <b-col cols="8" sm="4">
                   <select class="form-control" v-model="$parent.item.status" name="item[status]" >                        
                         <option v-for="(option, index) in ['Active','In-Active']" :key="index" :value="option">

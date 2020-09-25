@@ -4,7 +4,7 @@
     <LoadingFailed v-if="status_site_loaded == -1"/>
     <Header v-if="status_site_loaded == 1"/>
     <SidebarLeft v-if="status_site_loaded == 1"/>
-    <SidebarRight v-if="status_site_loaded == 1"/>
+    <!-- <SidebarRight v-if="status_site_loaded == 1"/> -->
     <div id="system_content" v-if="status_site_loaded == 1">
       <Loading v-if="$system_variables.status_task_loaded == 0"/>
       <LoadingFailed v-if="$system_variables.status_task_loaded == -1"/>  
@@ -34,12 +34,20 @@ export default {
   },
   mounted: function()//before create
   { 
+    // this.$system_variables.set_user({
+    //   maraj: {x:100, y:200}
+    // });
+    // console.log(this.$system_variables.user);
+    // this.$system_variables.logout();
+    // console.log(this.$system_variables.user);
     this.$system_variables.labels=this.$system_functions.load_languages([
+      {language:this.$system_variables.language,file:'languages/action.js'},
+      {language:this.$system_variables.language,file:'languages/button.js'},
+      {language:this.$system_variables.language,file:'languages/label.js'},
+      {language:this.$system_variables.language,file:'languages/message.js'},
       {language:this.$system_variables.language,file:'languages/response.js'},
-      {language:this.$system_variables.language,file:'languages/theme.js'},
-      {language:this.$system_variables.language,file:'languages/buttons.js'},
     ]);         
-    document.title=this.$system_variables.get_label('site_title');
+    document.title=this.$system_variables.get_label('label_site_title');
     this.init();   
   },
   methods:{
@@ -58,18 +66,22 @@ export default {
           if(users_tasks.data.error_type)        
           {            
               this.status_site_loaded=-1;
-              this.$bvToast.toast(this.$system_variables.get_label(response.data.error_type), {title: this.$system_variables.get_label('label_error'),variant:'danger',autoHideDelay: 5000,appendToast: false});
-
+              this.$bvToast.toast(this.$system_variables.get_label(response.data.error_type), 
+                {
+                  title: this.$system_variables.get_label('label_error'),
+                  variant:'danger',
+                  autoHideDelay: 5000,
+                  appendToast: false
+                }
+              );
           }
           else
           {
-            this.$system_variables.users.tasks=users_tasks.data.tasks;
+            this.$system_variables.visitors.tasks=users_tasks.data.tasks;
             this.status_site_loaded=1;
-            
-          }        
+          }
         })).catch(error => {  
           this.status_site_loaded=-1;
-            
         });
     },
   }

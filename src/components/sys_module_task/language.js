@@ -7,8 +7,19 @@ export var labels={
         en:"Name(English)",
         bn:'Name(English)'       
     },    
+<<<<<<< HEAD
     label_name_en:{
         en:"Name(Bangla)",
         bn:'নাম(বাংলা)'       
     },
+=======
+    label_name_bn:{
+        en:"Name(Bangla)",
+        bn:'নাম(বাংলা)'       
+    },  
+    label_icon_class:{
+        en:"Icon class",
+        bn:"আইকন এর ক্লাস"
+    }, 
+>>>>>>> development
 }

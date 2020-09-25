@@ -4,16 +4,26 @@
       <div class="card d-print-none mb-2">
         <div class="card-body">
             <!-- 0=view,1=add,2=edit,3=delete,4=forward,5=print,6=csv,7=column header,8=filter -->
+<<<<<<< HEAD
             <router-link  to="/sys_module_task/add" :class="'btn btn-success mr-2 mb-2'" >{{$system_variables.get_label('button_new')}}</router-link>            
             <b-button onclick="window.print();" class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action5" >{{$system_variables.get_label('button_print')}}</b-button>
             <b-button @click="$system_functions.export_csv(get_csv_headers,modified_items)" class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action8" >{{$system_variables.get_label('button_csv')}}</b-button>          
+=======
+            <router-link to="/sys_module_task/add" :class="'btn btn-success mr-2 mb-2'" >{{$system_variables.get_label('button_new')}}</router-link>            
+            <b-button class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action5" onclick="window.print();">{{$system_variables.get_label('button_print')}}</b-button>
+            <b-button class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action8" @click="$system_functions.export_csv(get_csv_headers,modified_items)">{{$system_variables.get_label('button_csv')}}</b-button>          
+>>>>>>> development
             <b-button class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action8" :pressed.sync="show_fitler_options">{{$system_variables.get_label('button_search')}}</b-button>
             <b-button class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action0" @click="$parent.init" >{{$system_variables.get_label('button_refresh')}}</b-button>
         </div>
       </div>
       <div class="card mb-2">
           <div class="card-header d-print-none">
+<<<<<<< HEAD
               Variety
+=======
+              Module &amp; Task List
+>>>>>>> development
           </div>
           <div class="card-body"> 
             <b-table                          
@@ -35,7 +45,11 @@
               <template v-slot:[`head(name_${$system_variables.language}${index})`]="data" v-for="index in $parent.max_level">              
                 <div>{{data.label}}</div>
                 <div v-if="show_fitler_options" class="d-print-none">
+<<<<<<< HEAD
                   <input type="text"  class="form-control" v-model="$parent.columns.filter_columns['name_'+$system_variables.language+index].value" />
+=======
+                  <input type="text" class="form-control form-control-sm" v-model="$parent.columns.filter_columns['name_'+$system_variables.language+index].value" />
+>>>>>>> development
                 </div>
               </template>
 
@@ -61,8 +75,12 @@
 
               <template v-slot:[`cell(name_${$system_variables.language}${index})`]="data" v-for="index in $parent.max_level">              
                 <div v-if="data.value==''">{{ data.value}}</div>
+<<<<<<< HEAD
                 <router-link v-else :to="'/sys_module_task/edit/'+data.item.id" :class="'text-primary'" >{{ data.value}}</router-link>
                 
+=======
+                <router-link v-else :to="'/sys_module_task/edit/'+data.item.id" :class="'text-primary'" >{{ data.value}}</router-link>                
+>>>>>>> development
               </template>
             </b-table>
           </div>          
@@ -84,8 +102,12 @@ export default {
   },
   data:function(){
     return{
+<<<<<<< HEAD
       show_fitler_options:true
       
+=======
+      show_fitler_options:true      
+>>>>>>> development
     }
   },
   computed:{   

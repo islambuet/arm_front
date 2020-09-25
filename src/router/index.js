@@ -19,20 +19,6 @@ const routes = [
       {path: 'role/:item_id'} ,     
     ]
   },  
-  { path: '/setup_locations',component: function () {return import('@/components/setup_locations/SetupLocations.vue')},
-    children: [
-      {path: 'region'},      
-      {path: 'region/add'},      
-      {path: 'region/edit/:item_id'},      
-      {path: 'area'},      
-      {path: 'area/add'},      
-      {path: 'area/edit/:item_id'},      
-      {path: 'territory'},      
-      {path: 'territory/add'},      
-      {path: 'territory/edit/:item_id'}    
-      
-    ]
-  }, 
   { path: '*',name:'NotFound',component: function () {return import('@/components/not_found/NotFound.vue')}},
 ]
 

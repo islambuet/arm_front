@@ -1,6 +1,6 @@
 export var labels={
-    NO_ACCESS:{
-        en:"You have no access",
-        bn:'প্রবেশ নিষেদ'       
+    no_access:{
+        en:"You have no access", 
+        bn:'আপনার প্রবেশধিকার নেই'
     }
 }

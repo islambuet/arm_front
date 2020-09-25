@@ -31,7 +31,6 @@ var system_htm_elements_action= new Vue(
         {
           localStorage.setItem('language',language);  
           window.location.reload(); 
-          
         },
         click_task_links:function (event)
         {  

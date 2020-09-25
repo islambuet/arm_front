@@ -19,7 +19,7 @@ var system_functions= new Vue(
             }          
           }
           catch(error){
-            console.log('error');
+            console.log(error);
           }
           return labels;
         },
@@ -52,24 +52,24 @@ var system_functions= new Vue(
                 var column=columns[field];
                 if(!column['hidden'])
                 { 
-                var display_column = {};
-                display_column['key']=field;
-                display_column['label']=column['label'];
-                if(column['sticky_column'])
-                {
-                    display_column['stickyColumn']=column['sticky_column'];
-                }
-                if(column['field_type']=='date')
-                {
-                    var thisObj=this;
-                    display_column['field_type']='date';
-                    display_column['formatter']=function(value, key, item){ return thisObj.$system_functions.display_date(value)};
-                }
-                if(column['sortable'])
-                {
-                    display_column['sortable']=column['sortable'];             
-                }   
-                display_columns.push(display_column);      
+                    var display_column = {};
+                    display_column['key']=field;
+                    display_column['label']=column['label'];
+                    if(column['sticky_column'])
+                    {
+                        display_column['stickyColumn']=column['sticky_column'];
+                    }
+                    if(column['field_type']=='date')
+                    {
+                        var thisObj=this;
+                        display_column['field_type']='date';
+                        display_column['formatter']=function(value, key, item){ return thisObj.$system_functions.display_date(value)};
+                    }
+                    if(column['sortable'])
+                    {
+                        display_column['sortable']=column['sortable'];             
+                    }   
+                    display_columns.push(display_column);      
                 }
             }  
             return display_columns;            
@@ -178,10 +178,7 @@ var system_functions= new Vue(
                     else
                     {
                         csvStr=csvStr+'"'+datas[j][headers[i].key]+'",';
-                    }
-                
-                    
-                
+                    }  
                 }
                 csvStr+="\n";
             }
@@ -191,7 +188,30 @@ var system_functions= new Vue(
             hiddenElement.download = 'output.csv';
             hiddenElement.click();            
         }
-
+        // set_user: function(data){
+        //     if(data['session']) // Local Storage
+        //     {
+        //         for (const item in data.session){
+        //             localStorage.setItem(item, data.session[item])
+        //         }
+        //     }
+        //     if('system_variable' in data) // System Variable
+        //     {
+        //         for (const item in data.system_variable){
+        //             if(typeof (data.system_variable[item]) === 'object'){
+        //                 for(var info of data.system_variable[item]){
+        //                     var key = String(Object.keys(info));  
+        //                     this.$system_variables.user[item][key] = info[key];
+        //                 }
+        //             } else {
+        //                 this.$system_variables.user[item] = data.system_variable[item];
+        //             }
+        //         }
+        //     }
+        // },
+        // get_user: function(){
+        //     return this.$system_variables.user;
+        // },
     }
 });
 Vue.prototype.$system_functions=system_functions

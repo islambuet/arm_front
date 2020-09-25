@@ -10,9 +10,9 @@
         
     </button>
     <!-- Right Sidebar handler -->
-    <button id="handler_right_sidebar" class="handler-sidebar float-right" v-on:click="$system_htm_elements_action.click_handler_right_sidebar($event)">
+    <!-- <button id="handler_right_sidebar" class="handler-sidebar float-right" v-on:click="$system_htm_elements_action.click_handler_right_sidebar($event)">
         <b-icon icon="border-width" variant="danger"></b-icon>
-    </button>    
+    </button>     -->
     <ul class="list-unstyled float-right mb-0">
         
         <!-- Language options -->
@@ -38,7 +38,7 @@
         <!-- Users options -->
         <li>
             <a class="nav-link dropdown-toggle mr-0" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                <img v-bind:src="$system_variables.user.info.profilepicture" v-if="$system_variables.user.info.profilepicture" alt="profileImage" class="rounded-circle" style="height: 32px;width: 32px;">
+                <img v-bind:src="$system_variables.user.info.profile_picture" v-if="$system_variables.user.info.profile_picture" alt="profileImage" class="rounded-circle" style="height: 32px;width: 32px;">
                 <img v-bind:src="'/images/guest.png'" v-else alt="Image" class="rounded-circle" style="height: 32px;width: 32px;">
             </a>
             <div class="dropdown-menu dropdown-menu-right">
@@ -47,13 +47,13 @@
                 </div>
                 <!-- item-->
                 
-                <a href="<?php echo site_url('user/profile_picture');?>" class="system_ajax dropdown-item" v-if="$system_variables.user.id > 0">
+                <a href="#" class="system_ajax dropdown-item" v-if="$system_variables.user.id > 0">
                     <i class="fe-user"></i>
                     <span>Profile Picture</span>
                 </a>
 
                 <!-- item-->
-                <a href="<?php echo site_url('user/edit_password');?>" class="system_ajax dropdown-item" v-if="$system_variables.user.id > 0">
+                <a href="#" class="system_ajax dropdown-item" v-if="$system_variables.user.id > 0">
                     <i class="fe-lock"></i>
                     <span>Change Password</span>
 
