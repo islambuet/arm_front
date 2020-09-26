@@ -43,29 +43,31 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 <div class="dropdown-item">
-                    <h6 class="text-overflow m-0">{{$system_variables.get_label('label_welcome')}} {{$system_variables.user.name}}</h6>
+                    <!-- <h6 class="text-overflow m-0">{{$system_variables.get_label('label_welcome')}} {{$system_variables.user.name}}</h6> -->
+                    <h6 class="text-overflow m-0">{{$system_variables.get_label('label_welcome')}} {{$system_variables.user['name_' + $system_variables.language]}}</h6>
                 </div>
+
                 <!-- item-->
-                
+                <div class="dropdown-divider" v-if="$system_variables.user.id > 0"></div>                
                 <a href="#" class="system_ajax dropdown-item" v-if="$system_variables.user.id > 0">
-                    <i class="fe-user"></i>
-                    <span>Profile Picture</span>
+                    <i class="fe-user"></i> <span class="ml-2">Profile Picture</span>
                 </a>
 
                 <!-- item-->
+                <div class="dropdown-divider" v-if="$system_variables.user.id > 0"></div>
                 <a href="#" class="system_ajax dropdown-item" v-if="$system_variables.user.id > 0">
-                    <i class="fe-lock"></i>
-                    <span>Change Password</span>
-
+                    <i class="fe-lock"></i> <span class="ml-2">Change Password</span>
                 </a>
 
                 <div class="dropdown-divider" v-if="$system_variables.user.id > 0"></div>
-                <a href="#" class="system_ajax dropdown-item" v-on:click.prevent="logout" v-if="$system_variables.user.id > 0">
-                    <i class="fe-log-out"></i>
-                    <span>Logout</span>
+                <a href="#" class="system_ajax dropdown-item" v-on:click.prevent="$system_variables.logout" v-if="$system_variables.user.id > 0">
+                    <i class="fe-log-out"></i> <span class="ml-2">Logout</span>
                 </a>
             </div>
         </li>
     </ul>
 </header>
 </template>
+<style scoped>
+    a.dropdown-item span{display: inline-block}
+</style>

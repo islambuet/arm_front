@@ -29,8 +29,13 @@ export default {
   {
       this.$system_variables.status_task_loaded=1;  
       this.$system_variables.status_data_loaded=1;  
-      // console.log('home monted');    
+      console.log('Dashboard Page');
+      console.log('Auth Token: '+ localStorage.getItem('token_auth'));
+      console.log('Device Token: '+ localStorage.getItem('token_device'));
+      console.log(this.$system_variables.user);
+      console.log(this.$system_variables.user.tasks);
 
+      // console.log('home monted');
       // var user = {        
       //     session:{
       //       token_auth: 'Auth t 1',

@@ -19,7 +19,7 @@
           </router-link>
           </li>
         <menu-tree v-for="(item, index) in $system_variables.user.tasks" :key="index" :menu="$system_variables.user.tasks[index]" :item_id_prefix="'side_menu_user_'"></menu-tree>        
-        <menu-tree v-for="(item, index) in $system_variables.visitors.tasks" :key="index" :menu="$system_variables.visitors.tasks[index]" :item_id_prefix="'side_menu_visitors_'"></menu-tree>        
+        <!-- <menu-tree v-for="(item, index) in $system_variables.visitors.tasks" :key="index" :menu="$system_variables.visitors.tasks[index]" :item_id_prefix="'side_menu_visitors_'"></menu-tree>         -->
     </ul>
 </nav>
 </template>

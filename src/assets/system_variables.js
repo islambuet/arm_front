@@ -9,6 +9,7 @@ function initial_data()
       token_auth:localStorage.getItem('token_auth')? localStorage.getItem('token_auth'):'',
       token_csrf:localStorage.getItem('token_csrf')? localStorage.getItem('token_csrf'):'',
       token_device:localStorage.getItem('token_device')? localStorage.getItem('token_device'):'',
+      //token_browser:localStorage.getItem('token_browser')? localStorage.getItem('token_browser'):'',
       id: 0,
       name:language=='en'?'Guest':'অতিথি',
       info:{},
@@ -47,20 +48,19 @@ var system_variables= new Vue(
           return this.labels[key]?this.labels[key]:key;
         },
         get_label_task(key){
-          console.log('---->>> '+key);
-          console.log(this.labels_task);
           return this.labels_task[key]?this.labels_task[key]:key;
         },
         set_user: function(data){
           // data == object {token_auth: 'value'}, ...
-          for (var item in data){
-              this.user[item] = data[item];
+          for (var item_key in data){
+              this.user[item_key] = data[item_key];
           }
         },
         logout: function(){
           localStorage.setItem('token_auth','');
           localStorage.setItem('token_csrf','');
           this.user=initial_data().user;
+          this.$router.push({name:'Home'}).catch(()=>{});
         }
       }
     }

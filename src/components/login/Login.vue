@@ -13,7 +13,7 @@
                         <form id="form_login" class="system_ajax form-horizontal" @submit.prevent="login($event)" v-if="!otp_required">
                             <div class="form-group row">
                                 <div class="col-12">
-                                    <input class="form-control" type="text" name="user_name" placeholder="Enter User Name" />
+                                    <input class="form-control" type="text" name="mobile_no" placeholder="Enter User Name" />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -33,11 +33,8 @@
 
                         <form id="form_otp" class="system_ajax form-horizontal" @submit.prevent="login_sms($event)">
                             <div class="form-group" v-if="otp_required">
-                                <div v-show="error_message != ''">
-                                    <p class="mt-2" v-html="error_message"></p>
-                                </div>
                                 <div class="input-group">
-                                    <input type="hidden" name="token_sms" :value="token_sms"/>
+                                    <input type="text" name="token_sms" :value="token_sms"/>
                                     <input type="text" name="otp" class="form-control" placeholder="Enter OTP code" />
                                 </div>
                                 <div class="form-group row text-right mt-2">
@@ -87,50 +84,39 @@ export default {
             this.$system_variables.status_data_loaded = 0;
             this.error_message_loading_fail = this.$system_variables.error_message_api_server;
             // Fetch from Local Storage
-            var device_token = (localStorage.getItem("token_device") !== null)? localStorage.getItem("token_device") : '';
+            var device_token = (this.$system_variables.user.token_device != '')? this.$system_variables.user.token_device : '';
 
             var formData=new FormData(document.getElementById('form_login'));
             formData.append ('token_device', device_token);
             formData.append ('device[token_device]', device_token);
-            formData.append ('device[device_info]', {});
+            //formData.append ('device[device_info]', {});
 
             this.$axios.post('/login',formData)
             .then(response=>{
                 if(response.data.error_type == 'USER_NOT_FOUND')
                 {
                     this.error_message = this.$system_variables.get_label('USER_NOT_FOUND');
+                    this.error_msg_variant = 'danger';
                 }
                 else if(response.data.error_type == 'PASSWORD_INCORRECT')
                 {
                     this.error_message = this.$system_variables.get_label('PASSWORD_INCORRECT') + ' You can retry '+ response.data.remaining +' more time(s).';
+                    this.error_msg_variant = 'danger';
                 }
                 else if(response.data.error_type == 'OTP_VERIFICATION_REQUIRED')
                 {
-                    this.token_sms = (response.data.token_sms) ? response.data.token_sms : '';
+                    // this.token_sms = (response.data.token_sms) ? response.data.token_sms : '';
+                    this.token_sms = response.data.token_sms;
                     this.error_message = this.$system_variables.get_label('OTP_VERIFICATION_REQUIRED');
                     this.error_msg_variant = 'warning';
                     this.otp_required = true;
                 }
-                // else if(response.data.status_code == 100)
-                // {
-                //     this.error_message_loading_fail = response.data.message;
-                //     this.$system_variables.labels.msgLoadingErrorHeader = response.data.message;
-                //     this.$system_variables.labels.msgLoadingErrorSubHeader = response.data.message_warning;
-                //     this.$system_variables.labels.msgLoadingErrorInfo = '';
-                // }
-                // else if(response.data.status_code == 1101){
-                //     this.token_sms = response.data.token_sms;
-                //     this.formTitle = response.data.message_warning;
-                //     //this.$parent.set_user_data(response.data.user);
-                //     this.otp_required = true;
-                // }
-                // else
-                // {                    
-                //     this.$parent.set_user_data(response.data.user.user);                    
-                //     // Device Token
-                //     localStorage.setItem('token_device', response.data.user.device.token_device);
-                //     this.$router.push({name:'Home'}).catch(()=>{}); 
-                // }
+                else
+                {
+                    localStorage.setItem('token_auth', response.data.token_auth);
+                    this.$system_variables.set_user(response.data.user);
+                    this.$router.push({name:'Home'}).catch(()=>{});
+                }
                 this.$system_variables.status_data_loaded = 1;
             })
             .catch(error => {
@@ -146,35 +132,31 @@ export default {
             var device_token = ''; // Device Token Not Available while sending OTP code
 
             var formData=new FormData(document.getElementById('form_otp'));
-            formData.append ('token_device', device_token);
+            // formData.append ('token_device', device_token);
             formData.append ('device[token_device]', device_token);
 
-            this.$axios.post('/login_sms',formData)
+            this.$axios.post('/Login/login_sms',formData)
             .then(response=>{
-                if(response.data.status_code == 110)
+                if(response.data.error_type == 'OTP_INCORRECT')
                 {
-                    this.error_message_loading_fail = response.data.message;
-                    this.error_message = '<b style="color:#ff0000">OTP Expired or, already used!</b>';
+                    this.error_message = this.$system_variables.get_label('OTP_INCORRECT');
+                    this.error_msg_variant = 'danger';
                 }
-                else if(response.data.status_code == 300) // OTP code not Found
+                else if(response.data.error_type == 'OTP_EXPIRED')
                 {
-                    this.error_message_loading_fail = response.data.message;
-                    this.error_message = '<b style="color:#ff0000">OTP Code Not Found!</b>';
+                    this.error_message = this.$system_variables.get_label('OTP_EXPIRED');
+                    this.error_msg_variant = 'danger';
                 }
-                else if(response.data.status_code == 301)
+                else if(response.data.error_type == 'OTP_ALREADY_USED')
                 {
-                    this.error_message_loading_fail = response.data.message;
-                    this.error_message = '<b style="color:#ff0000">Incorrect OTP Code!</b>';
+                    this.error_message = this.$system_variables.get_label('OTP_ALREADY_USED');
+                    this.error_msg_variant = 'danger';
                 }
-                else if(response.data.status_code == 302)
+                else if(response.data.error_type.trim() == '')
                 {
-                    this.error_message_loading_fail = response.data.message;
-                    this.error_message = '<b style="color:#ff0000">Maximum OTP Retry Exceeded!</b>';
-                }
-                else
-                {
-                    this.$parent.set_user_data(response.data.user.user);
-                    localStorage.setItem('token_device', response.data.user.device.token_device)
+                    localStorage.setItem('token_auth', response.data.user.token_auth);
+                    localStorage.setItem('token_device', response.data.user.token_device);
+                    this.$system_variables.set_user(response.data.user);
                     this.$router.push({name:'Home'}).catch(()=>{});
                 }
                 this.$system_variables.status_data_loaded = 1;
