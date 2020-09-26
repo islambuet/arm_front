@@ -9,14 +9,14 @@
 import List from './List.vue'
 
 export default {
-    name: 'Area', 
+    name: 'Territory', 
     components: {
         List
     },   
     mounted:function()
     {
-      this.permissions=this.$parent.permissions['Area'];
-      console.log('area init called');
+      this.permissions=this.$parent.permissions['Territory'];
+      console.log('Territory init called');
       
     },
     data() {
@@ -80,7 +80,7 @@ export default {
             this.$system_variables.status_data_loaded=0;        
             var form_data=new FormData();
             form_data.append ('token_auth', this.$system_variables.user.token_auth);                  
-            this.$axios.post('/setup_locations/get_items_area',form_data)
+            this.$axios.post('/setup_locations/get_items_territory',form_data)
             .then(response=>{          
               this.$system_variables.status_data_loaded=1;
               if(response.data.error_type)        
