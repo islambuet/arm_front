@@ -180,7 +180,7 @@ a:focus {
     padding:90px 20px 50px;
     transition: all 0.3s;
     margin-left: 250px;
-    margin-right: 250px;
+    /* margin-right: 250px; only if right sidebar active */
 
 }
 #system_content.inactive_left_sidebar{

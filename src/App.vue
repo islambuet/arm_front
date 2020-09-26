@@ -4,7 +4,7 @@
     <LoadingFailed v-if="status_site_loaded == -1"/>
     <Header v-if="status_site_loaded == 1"/>
     <SidebarLeft v-if="status_site_loaded == 1"/>
-    <SidebarRight v-if="status_site_loaded == 1"/>
+    <!-- <SidebarRight v-if="status_site_loaded == 1"/> -->
     <div id="system_content" v-if="status_site_loaded == 1">
       <Loading v-if="$system_variables.status_task_loaded == 0"/>
       <LoadingFailed v-if="$system_variables.status_task_loaded == -1"/>  

@@ -10,9 +10,9 @@
         
     </button>
     <!-- Right Sidebar handler -->
-    <button id="handler_right_sidebar" class="handler-sidebar float-right" v-on:click="$system_htm_elements_action.click_handler_right_sidebar($event)">
+    <!-- <button id="handler_right_sidebar" class="handler-sidebar float-right" v-on:click="$system_htm_elements_action.click_handler_right_sidebar($event)">
         <b-icon icon="border-width" variant="danger"></b-icon>
-    </button>    
+    </button>     -->
     <ul class="list-unstyled float-right mb-0">
         
         <!-- Language options -->
