@@ -3,7 +3,7 @@
     <div v-if="$parent.permissions.action1 || $parent.permissions.action2" v-show="$system_variables.status_data_loaded==1">
         <div class="card d-print-none mb-2">
             <div class="card-body">
-              <router-link  to="/sys_module_task" :class="'btn btn-success mr-2 mb-2'" >{{$system_variables.get_label('button_back')}}</router-link>            
+              <router-link  to="/sys_module_task" :class="'btn btn-success mr-2 mb-2'" >{{$system_variables.get_label('button_back')}}</router-link>
                 
                 <b-button class="mr-2 mb-2" variant="success" @click="save(false)">{{$system_variables.get_label('button_save')}}</b-button>
                 <b-button class="mr-2 mb-2" variant="success" @click="save(true)">{{$system_variables.get_label('button_save_new')}}</b-button>
@@ -30,7 +30,7 @@
                 </b-col>                
               </b-row>
               <b-row class="mb-2">
-                <b-col cols="4" class="text-right"><label>{{$system_variables.get_label_task('label_icon_class')}}</label></b-col>
+                <b-col cols="4" class="text-right"><label>{{$system_variables.get_label_task('label_icon_class')}}</label> </b-col>
                 <b-col cols="8" sm="4">
                   <input type="text" name="item[icon_class]" v-model="$parent.item.icon_class" class="form-control" />
                 </b-col>                

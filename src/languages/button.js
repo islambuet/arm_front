@@ -1,5 +1,17 @@
 //for action and buttons both
 export var labels={
+    button_signin:{
+        en:"Sign In",
+        bn:"সাইন ইন"
+    }, 
+    button_send:{
+        en:"Send",
+        bn:"পাঠান"
+    }, 
+    button_cancel:{
+        en:"Cancel",
+        bn:"বাতিল"
+    }, 
     button_action:{
         en:"Action",
         bn:"কার্যকলাপ"
