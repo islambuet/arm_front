@@ -16,8 +16,9 @@ Vue.prototype.$axios=axios
 
 import  '@/assets/system_functions.js'
 
-// axios.defaults.baseURL = 'http://localhost/arm_back/';
-axios.defaults.baseURL = 'http://192.168.5.174/arm_back/';
+axios.defaults.baseURL = 'http://localhost/arm_back/';
+// axios.defaults.baseURL = 'http://192.168.5.174/arm_back/';
+
 new Vue({
   router,
   render: function (h) { return h(App) }

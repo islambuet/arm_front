@@ -29,32 +29,12 @@ export default {
   {
       this.$system_variables.status_task_loaded=1;  
       this.$system_variables.status_data_loaded=1;  
-      console.log('Dashboard Page');
-      console.log('Auth Token: '+ localStorage.getItem('token_auth'));
-      console.log('Device Token: '+ localStorage.getItem('token_device'));
-      console.log(this.$system_variables.user);
-      console.log(this.$system_variables.user.tasks);
-
-      // console.log('home monted');
-      // var user = {        
-      //     session:{
-      //       token_auth: 'Auth t 1',
-      //       token_csrf: 'CSRF t 1',
-      //       token_device: 'DEVICE t 1'
-      //     },
-      //     system_variable:{
-      //       id: 2,
-      //       info: [
-      //         {name: 'super man'},
-      //         {mobile: '01713090961'},
-      //         {profile_picture:'https://www.clipartmax.com/png/small/110-1105638_bp-green-yellow-star-logo.png'}
-      //       ],
-      //     }
-      // }
-        
-      // this.$system_functions.set_user(user);
-      // var u = this.$system_functions.get_user();  
-      // console.log(u)
+      // console.log('Dashboard Page');
+      // console.log('Auth Token: '+ localStorage.getItem('token_auth'));
+      // console.log('Device Token: '+ localStorage.getItem('token_device'));
+      // console.log(this.$system_variables.user);
+      // console.log(this.$system_variables.user.tasks);
+      // console.log(navigator.userAgent);
   },
   data() {
       return {

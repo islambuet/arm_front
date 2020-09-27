@@ -19,10 +19,9 @@
         <li>
            
             <a class="nav-link dropdown-toggle mr-0" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-
-                                <span class="ml-1">
-                                    {{$system_variables.get_label('label_change_language')}} <i class="mdi mdi-chevron-down"></i>
-                                </span>
+                <span class="ml-1">
+                    {{$system_variables.get_label('label_change_language')}} <i class="mdi mdi-chevron-down"></i>
+                </span>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 <!-- item-->

@@ -84,8 +84,6 @@ export default {
         })).catch(error => {  
           this.status_site_loaded=-1;
         });
-        
-        this.status_site_loaded=1;
     },
   }
 }

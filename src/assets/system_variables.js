@@ -9,7 +9,6 @@ function initial_data()
       token_auth:localStorage.getItem('token_auth')? localStorage.getItem('token_auth'):'',
       token_csrf:localStorage.getItem('token_csrf')? localStorage.getItem('token_csrf'):'',
       token_device:localStorage.getItem('token_device')? localStorage.getItem('token_device'):'',
-      //token_browser:localStorage.getItem('token_browser')? localStorage.getItem('token_browser'):'',
       id: 0,
       name:language=='en'?'Guest':'অতিথি',
       info:{},
@@ -55,6 +54,12 @@ var system_variables= new Vue(
           for (var item_key in data){
               this.user[item_key] = data[item_key];
           }
+        },        
+        get_msg_response_error: function()
+        {
+          return '<h4 class="alert-heading">'+this.get_label('msg_response_error_title')+'</h4>'+'<hr>'+
+                  '<p>'+this.get_label('msg_response_error_body')+'</p>'+
+                  '<p>'+this.get_label('msg_contact_with_admin')+'</p>';                    
         },
         logout: function(){
           localStorage.setItem('token_auth','');

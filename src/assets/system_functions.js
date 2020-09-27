@@ -187,31 +187,7 @@ var system_functions= new Vue(
             hiddenElement.target = '_blank';
             hiddenElement.download = 'output.csv';
             hiddenElement.click();            
-        }
-        // set_user: function(data){
-        //     if(data['session']) // Local Storage
-        //     {
-        //         for (const item in data.session){
-        //             localStorage.setItem(item, data.session[item])
-        //         }
-        //     }
-        //     if('system_variable' in data) // System Variable
-        //     {
-        //         for (const item in data.system_variable){
-        //             if(typeof (data.system_variable[item]) === 'object'){
-        //                 for(var info of data.system_variable[item]){
-        //                     var key = String(Object.keys(info));  
-        //                     this.$system_variables.user[item][key] = info[key];
-        //                 }
-        //             } else {
-        //                 this.$system_variables.user[item] = data.system_variable[item];
-        //             }
-        //         }
-        //     }
-        // },
-        // get_user: function(){
-        //     return this.$system_variables.user;
-        // },
+        },
     }
 });
 Vue.prototype.$system_functions=system_functions
