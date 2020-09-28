@@ -17,7 +17,7 @@ export var labels={
     },
     label_login:{
         en:"login",
-        bn:"প্রবেশ করুন।"
+        bn:"লগইন"
     },
     label_dashboard:{
         en:"Dashboard",
