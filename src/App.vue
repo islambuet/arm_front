@@ -65,23 +65,30 @@ export default {
         .then(this.$axios.spread((users_tasks) => 
         {
           if(users_tasks.data.error_type)        
-          {            
-              this.status_site_loaded=-1;
-              this.$bvToast.toast(this.$system_variables.get_label(response.data.error_type), 
-                {
-                  title: this.$system_variables.get_label('label_error'),
-                  variant:'danger',
-                  autoHideDelay: 5000,
-                  appendToast: false
-                }
-              );
+          {                           
+              this.status_site_loaded=1;
+              if(this.$route.path != '/' && this.$route.path != '/login')
+              {
+                this.$bvToast.toast( this.$system_variables.get_label('NO_ACCESS'), 
+                  {
+                    title: this.$system_variables.get_label(users_tasks.data.error_type),
+                    variant:'danger',
+                    autoHideDelay: 5000,
+                    appendToast: false
+                  }
+                );  
+                this.$router.push("/");
+                return;
+              }
           }
           else
           {
-            this.$system_variables.visitors.tasks=users_tasks.data.tasks;
+            //this.$system_variables.visitors.tasks=users_tasks.data.tasks;
+            this.$system_variables.set_user(users_tasks.data.user);
             this.status_site_loaded=1;
           }
-        })).catch(error => {  
+        })).catch(error => {
+          console.log(error);
           this.status_site_loaded=-1;
         });
     },

@@ -12,6 +12,7 @@ function initial_data()
       id: 0,
       name:language=='en'?'Guest':'অতিথি',
       info:{},
+      actions:{},
       tasks:[]
     },
     visitors:{

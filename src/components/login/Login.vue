@@ -63,10 +63,40 @@
 export default {
     name: 'Login',
     components: { },
-    mounted:function(){
+    mounted: function()
+    {
+        //Check If A User is Logged-In or Not. 
+        var token_auth = localStorage.getItem('token_auth') ? localStorage.getItem('token_auth') : '';
+        //var token_auth = '8dN6ifLBqA53eGPQtfZHDxAJPD+URVoxUuSU6W5V0lY=';
+
+        if(token_auth != '') {
+            var form_data=new FormData();
+            form_data.append ('token_auth', token_auth);
+
+            this.$axios.post('/users/get_user', form_data)
+            .then(response=>{
+                if(response.data.error_type == '')
+                {
+                    this.$router.push("/");
+                    return;
+                }
+            })
+            .catch(error => {
+                console.log(error);
+                this.$bvToast.toast(error, 
+                    {
+                    title: 'Response Error',
+                    variant:'danger',
+                    autoHideDelay: 5000,
+                    appendToast: false
+                    }
+                );
+            })
+        }
+
         this.$system_variables.labels_task = this.$system_functions.load_languages([
             {language:this.$system_variables.language,file:'components/login/language.js'},
-        ]); 
+        ]);
         this.init();
     },
     data() {
