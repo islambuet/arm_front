@@ -16,12 +16,12 @@
                             <form id="form_login" class="system_ajax form-horizontal" @submit.prevent="login($event)" v-if="!otp_required">
                                 <div class="form-group row">
                                     <div class="col-12">
-                                        <input class="form-control" type="text" name="mobile_no" :placeholder="this.$system_variables.get_label_task('label_login_form_placeholder_mobile_no')" />
+                                        <input required class="form-control" type="text" name="mobile_no" :placeholder="this.$system_variables.get_label_task('label_login_form_placeholder_mobile_no')" v-on:input="$system_htm_elements_action.input_integer_positive($event);">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="input-group">
-                                        <input class="form-control" type="password" name="password" :placeholder="this.$system_variables.get_label_task('label_login_form_placeholder_password')" />
+                                        <input required class="form-control" type="password" name="password" :placeholder="this.$system_variables.get_label_task('label_login_form_placeholder_password')" />
                                         <div class="input-group-append" style="cursor: pointer;" @click="$system_htm_elements_action.click_handler_password_eye($event)">
                                             <span class="input-group-text"><i class="fe-eye"></i></span>
                                         </div>
@@ -64,9 +64,7 @@ export default {
         this.$system_variables.labels_task = this.$system_functions.load_languages([
             {language:this.$system_variables.language,file:'components/login/language.js'},
         ]); 
-        /* Object.assign(this.$system_variables.labels_task, this.$system_functions.load_languages([
-             {language:this.$system_variables.language,file:'components/login/language.js'},        
-        ])); */        
+        this.init();
     },
     data() {
         return {
@@ -79,7 +77,7 @@ export default {
     methods:{    
         init: function()
         { 
-            this.$system_variables.status_task_loaded=0;
+            this.$system_variables.status_task_loaded=1;
             this.$system_variables.status_data_loaded=1;
         },         
         login: function(event)
@@ -124,6 +122,7 @@ export default {
                 {
                     localStorage.setItem('token_auth', response.data.user.token_auth);
                     localStorage.setItem('token_csrf', response.data.user.token_csrf);
+                    localStorage.setItem('token_device', response.data.user.token_device);
                     this.$system_variables.set_user(response.data.user);
                     this.$router.push("/");
                 }
@@ -138,10 +137,11 @@ export default {
         },
         login_sms: function(event)
         {
+            this.alert_message = '';
             this.$system_variables.status_data_loaded = 0;
 
             var form_data=new FormData(document.getElementById('form_otp'));
-            form_data.append ('device[token_device]', '');
+            form_data.append ('token_device', this.$system_variables.user.token_device);
 
             this.$axios.post('/Login/login_sms',form_data)
             .then(response=>{                

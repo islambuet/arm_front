@@ -39,6 +39,29 @@ var system_htm_elements_action= new Vue(
           $('#system_right_sidebar').removeClass('inactive');
           $('#system_content').removeClass('inactive_right_sidebar');  
         },
+        input_integer_positive:function (event)
+        { 
+          var curelement=event.currentTarget; 
+          curelement.value=curelement.value.replace(/[^0-9]/g, '');
+          
+        },
+        input_integer_all:function (event)
+        { 
+          var curelement=event.currentTarget; 
+          curelement.value = curelement.value.replace(/[^0-9-]/g, '').replace(/(?!^)-/g, '');
+        },
+        input_float_positive:function (event)
+        { 
+          var curelement=event.currentTarget; 
+          curelement.value = curelement.value.replace(/[^0-9.]/g, '').replace('.', 'x').replace(/\./g,'').replace('x','.');
+          
+        },
+        input_float_all:function (event)
+        { 
+          var curelement=event.currentTarget; 
+          curelement.value = curelement.value.replace(/[^0-9.-]/g, '').replace('.', 'x').replace(/\./g,'').replace('x','.').replace(/(?!^)-/g, '');
+        },
+
         
         /************
          * data-minimum-size-to-resize//1372022
