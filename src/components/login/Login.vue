@@ -9,14 +9,14 @@
                                 <div v-html="alert_message"></div>
                             </b-alert>
                         </div>
-                        <div>
-                            <p class="mt-2" v-html="this.$system_variables.get_label_task('label_login_form_title')"></p>
-                        </div>
                         <div class="mt-4">
                             <form id="form_login" class="system_ajax form-horizontal" @submit.prevent="login($event)" v-if="!otp_required">
+                                <div>
+                                    <p class="mt-2" v-html="this.$system_variables.get_label_task('label_login_form_title')"></p>
+                                </div>
                                 <div class="form-group row">
                                     <div class="col-12">
-                                        <input required class="form-control" type="text" name="mobile_no" :placeholder="this.$system_variables.get_label_task('label_login_form_placeholder_mobile_no')" v-on:input="$system_htm_elements_action.input_integer_positive($event);">
+                                        <input required class="form-control" type="text" name="mobile_no" :placeholder="this.$system_variables.get_label_task('label_login_form_placeholder_mobile_no')">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -34,15 +34,18 @@
                                 </div>
                             </form>
 
-                            <form id="form_otp" class="system_ajax form-horizontal" @submit.prevent="login_sms($event)">
-                                <div class="form-group" v-if="otp_required">
+                            <form id="form_otp" class="system_ajax form-horizontal" @submit.prevent="login_sms($event)" v-if="otp_required">                                
+                                <div>
+                                    <p class="mt-2" v-html="this.$system_variables.get_label_task('label_otp_form_title')"></p>
+                                </div>
+                                <div class="form-group">
                                     <div class="input-group">
                                         <input type="hidden" name="token_sms" :value="token_sms"/>
                                         <input type="text" name="otp" class="form-control" :placeholder="this.$system_variables.get_label_task('label_otp_form_placeholder_otp')" />
                                     </div>
                                     <div class="form-group row text-right mt-2">
                                         <div class="col-12">
-                                            <button class="btn btn-md btn-danger" @click="otp_required = false">{{ this.$system_variables.get_label('button_cancel') }}</button>
+                                            <button class="btn btn-md btn-danger" @click="otp_required = false; alert_message = ''">{{ this.$system_variables.get_label('button_cancel') }}</button>
                                             <button class="btn btn-md btn-primary ml-2" type="submit">{{ this.$system_variables.get_label('button_send') }}</button>
                                         </div>
                                     </div>
@@ -117,6 +120,7 @@ export default {
                 {
                     this.alert_message = this.$system_variables.get_label('OTP_WAIT');
                     this.alert_variant = 'warning';
+                    this.otp_required = true;
                 }
                 else
                 {

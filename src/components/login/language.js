@@ -1,4 +1,5 @@
 export var labels={       
+    // LOGIN Form
     label_login_form_title:{
         en:"Fill out the form below to login.",
         bn:"লগ ইন করতে নীচের ফর্মটি পূরণ করুন।"
@@ -10,6 +11,12 @@ export var labels={
     label_login_form_placeholder_password:{
         en:"Enter your password.",
         bn:"আপনার পাসওয়ার্ড লিখুন।"
+    },
+
+    // OTP Form
+    label_otp_form_title:{
+        en:"Enter the OTP code below, which is sent to your mobile.",
+        bn:"আপনার মোবাইলে পাঠানো ওটিপি কোডটি নিচে লিখুন।"
     },
     label_otp_form_placeholder_otp:{
         en:"Enter OTP code.",
