@@ -19,6 +19,13 @@ const routes = [
       {path: 'role/:item_id'} ,     
     ]
   },  
+  { path: '/setup_system_configuration',component: function () {return import('@/components/setup_system_configuration/SetupSystemConfiguration.vue')},
+    children: [
+      {path: 'add'},      
+      {path: 'edit/:item_id'} ,     
+      {path: 'role/:item_id'} ,     
+    ]
+  },  
   { path: '*',name:'NotFound',component: function () {return import('@/components/not_found/NotFound.vue')}},
 ]
 
