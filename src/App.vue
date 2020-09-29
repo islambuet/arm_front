@@ -33,13 +33,7 @@ export default {
     }
   },
   mounted: function()//before create
-  { 
-    // this.$system_variables.set_user({
-    //   maraj: {x:100, y:200}
-    // });
-    // console.log(this.$system_variables.user);
-    // this.$system_variables.logout();
-    // console.log(this.$system_variables.user);
+  {
     this.$system_variables.labels=this.$system_functions.load_languages([
       {language:this.$system_variables.language,file:'languages/action.js'},
       {language:this.$system_variables.language,file:'languages/button.js'},
@@ -55,40 +49,33 @@ export default {
     {
       this.status_site_loaded=0;
       this.$system_variables.status_task_loaded=1;//avoid multiple loading scrree      
-      this.$system_variables.status_data_loaded=1;      
-
+      this.$system_variables.status_data_loaded=1;
+      
       var form_data=new FormData();
       form_data.append ('token_auth', this.$system_variables.user.token_auth);
       this.$axios.all([      
-          this.$axios.post('/users/get_tasks',form_data),          
+          this.$axios.post('/home',form_data),          
         ])
         .then(this.$axios.spread((users_tasks) => 
         {
           if(users_tasks.data.error_type)        
-          {                           
-              this.status_site_loaded=1;
-              if(this.$route.path != '/' && this.$route.path != '/login')
-              {
-                this.$bvToast.toast( this.$system_variables.get_label('NO_ACCESS'), 
-                  {
-                    title: this.$system_variables.get_label(users_tasks.data.error_type),
-                    variant:'danger',
-                    autoHideDelay: 5000,
-                    appendToast: false
-                  }
-                );  
-                this.$router.push("/");
-                return;
-              }
+          {            
+              this.status_site_loaded=-1;
+              /* this.$bvToast.toast(this.$system_variables.get_label(response.data.error_type), 
+                {
+                  title: this.$system_variables.get_label('label_error'),
+                  variant:'danger',
+                  autoHideDelay: 5000,
+                  appendToast: false
+                }
+              ); */
           }
           else
           {
-            //this.$system_variables.visitors.tasks=users_tasks.data.tasks;
             this.$system_variables.set_user(users_tasks.data.user);
             this.status_site_loaded=1;
           }
-        })).catch(error => {
-          console.log(error);
+        })).catch(error => {  
           this.status_site_loaded=-1;
         });
     },

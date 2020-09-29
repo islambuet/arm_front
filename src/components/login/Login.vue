@@ -28,7 +28,7 @@
                                     </div>
                                     <div class="form-group row text-right mt-2">
                                         <div class="col-12">
-                                            <button class="btn btn-md btn-primary" type="submit">{{ this.$system_variables.get_label('button_signin') }}</button>
+                                            <button class="btn btn-md btn-primary" type="submit">{{this.$system_variables.get_label('button_signin')}}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -41,12 +41,12 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <input type="hidden" name="token_sms" :value="token_sms"/>
-                                        <input type="text" name="otp" class="form-control" :placeholder="this.$system_variables.get_label_task('label_otp_form_placeholder_otp')" />
+                                        <input required type="text" name="otp" class="form-control" :placeholder="this.$system_variables.get_label_task('label_otp_form_placeholder_otp')" />
                                     </div>
                                     <div class="form-group row text-right mt-2">
                                         <div class="col-12">
-                                            <button class="btn btn-md btn-danger" @click="otp_required = false; alert_message = ''">{{ this.$system_variables.get_label('button_cancel') }}</button>
-                                            <button class="btn btn-md btn-primary ml-2" type="submit">{{ this.$system_variables.get_label('button_send') }}</button>
+                                            <button class="btn btn-md btn-danger" @click="otp_required = false; alert_message = ''">{{this.$system_variables.get_label('button_cancel')}}</button>
+                                            <button class="btn btn-md btn-primary ml-2" type="submit">{{this.$system_variables.get_label('button_send')}}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -65,35 +65,6 @@ export default {
     components: { },
     mounted: function()
     {
-        //Check If A User is Logged-In or Not. 
-        var token_auth = localStorage.getItem('token_auth') ? localStorage.getItem('token_auth') : '';
-        //var token_auth = '8dN6ifLBqA53eGPQtfZHDxAJPD+URVoxUuSU6W5V0lY=';
-
-        if(token_auth != '') {
-            var form_data=new FormData();
-            form_data.append ('token_auth', token_auth);
-
-            this.$axios.post('/users/get_user', form_data)
-            .then(response=>{
-                if(response.data.error_type == '')
-                {
-                    this.$router.push("/");
-                    return;
-                }
-            })
-            .catch(error => {
-                console.log(error);
-                this.$bvToast.toast(error, 
-                    {
-                    title: 'Response Error',
-                    variant:'danger',
-                    autoHideDelay: 5000,
-                    appendToast: false
-                    }
-                );
-            })
-        }
-
         this.$system_variables.labels_task = this.$system_functions.load_languages([
             {language:this.$system_variables.language,file:'components/login/language.js'},
         ]);
@@ -123,7 +94,15 @@ export default {
 
             this.$axios.post('/login',form_data)
             .then(response=>{
-                if(response.data.error_type == 'USER_NOT_FOUND')
+                if(response.data.error_type == '')
+                {
+                    localStorage.setItem('token_auth', response.data.user.token_auth);
+                    localStorage.setItem('token_csrf', response.data.user.token_csrf);
+                    localStorage.setItem('token_device', response.data.user.token_device);
+                    this.$system_variables.set_user(response.data.user);
+                    this.$router.push("/");
+                }
+                else if(response.data.error_type == 'USER_NOT_FOUND')
                 {
                     this.alert_message = this.$system_variables.get_label('USER_NOT_FOUND');
                     this.alert_variant = 'danger';
@@ -154,11 +133,8 @@ export default {
                 }
                 else
                 {
-                    localStorage.setItem('token_auth', response.data.user.token_auth);
-                    localStorage.setItem('token_csrf', response.data.user.token_csrf);
-                    localStorage.setItem('token_device', response.data.user.token_device);
-                    this.$system_variables.set_user(response.data.user);
-                    this.$router.push("/");
+                    this.alert_message = response.data.error_type;
+                    this.alert_variant = 'danger';
                 }
                 this.$system_variables.status_data_loaded = 1;
             })
