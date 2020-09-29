@@ -54,26 +54,20 @@ export default {
       var form_data=new FormData();
       form_data.append ('token_auth', this.$system_variables.user.token_auth);
       this.$axios.all([      
-          this.$axios.post('/home',form_data),          
+          this.$axios.post('/user/initialize',form_data),          
         ])
-        .then(this.$axios.spread((users_tasks) => 
+        .then(this.$axios.spread((response) => 
         {
-          if(users_tasks.data.error_type)        
-          {            
-              this.status_site_loaded=-1;
-              /* this.$bvToast.toast(this.$system_variables.get_label(response.data.error_type), 
-                {
-                  title: this.$system_variables.get_label('label_error'),
-                  variant:'danger',
-                  autoHideDelay: 5000,
-                  appendToast: false
-                }
-              ); */
+          var all_success = true;
+          if(response.data.error_type==''){
+            this.$system_variables.set_user(response.data.user);
+          } else {
+            if (this.$route.path !== '/login') this.$system_variables.logout();
           }
-          else
-          {
-            this.$system_variables.set_user(users_tasks.data.user);
+          if(all_success){
             this.status_site_loaded=1;
+          } else {
+            this.status_site_loaded=-1;
           }
         })).catch(error => {  
           this.status_site_loaded=-1;
