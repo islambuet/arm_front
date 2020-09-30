@@ -9,6 +9,7 @@
       <Loading v-if="$system_variables.status_task_loaded == 0"/>
       <LoadingFailed v-if="$system_variables.status_task_loaded == -1"/>  
       <LoadingAccessDeny v-if="$system_variables.status_task_loaded == -2"/>  
+      <SiteOffLine v-if="$system_variables.status_task_loaded == -3"/>  
       <Loading v-show="$system_variables.status_data_loaded == 0"/>
       <router-view/>
     </div>
@@ -19,13 +20,14 @@
 import Loading from '@/views/busy_states/Loading.vue'
 import LoadingFailed from '@/views/busy_states/LoadingFailed.vue'
 import LoadingAccessDeny from '@/views/busy_states/LoadingAccessDeny.vue'
+import SiteOffLine from '@/views/busy_states/SiteOffLine.vue'
 import Header from '@/views/template/Header.vue'
 import SidebarLeft from '@/views/template/SidebarLeft.vue'
 import SidebarRight from '@/views/template/SidebarRight.vue'
 export default {
   name: 'App',
   components: {
-    Loading,LoadingFailed,LoadingAccessDeny,Header,SidebarLeft,SidebarRight
+    Loading,LoadingFailed,LoadingAccessDeny,SiteOffLine,Header,SidebarLeft,SidebarRight
   },
   data:function(){
     return {
