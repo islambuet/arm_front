@@ -78,9 +78,13 @@ export default {
         this.$axios.post('/setup_system_configures/initialize',form_data)
         .then(response=>{
             if(response.data.error_type)        
-            {            
+            {           
+              if(response.data.error_type=='SITE_OFF_LINE'){
+                this.$system_variables.status_task_loaded=-3;
+              } else {
                 this.$system_variables.status_task_loaded=0;
                 this.$bvToast.toast(this.$system_variables.get_label(response.data.error_type), {title: this.$system_variables.get_label('label_error'),variant:'danger',autoHideDelay: 5000,appendToast: false});
+              }
             }
             else
             {
