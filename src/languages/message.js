@@ -6,19 +6,19 @@ export var labels={
     },
     msg_loading_error_header:{
         en:'Data Loading Problem',
-        bn:'ডেটা লোড সমস্যা'
+        bn:'ডেটা লোড সমস্...'
     },
     msg_loading_error_sub_header:{
         en:'Internet Connection Problem',
-        bn:'ইন্টারনেট সংযোগ সমস্যা'
+        bn:'ইন্টারনেট সংযোগ সমস্যা।'
     },
     msg_loading_error_info:{
         en:'Data loading problem. Wait some moment and refresh your browser. You may contact with system admin.',
         bn:'ডেটা লোড সমস্যা। কিছুক্ষণ অপেক্ষা করুন এবং আপনার ব্রাউজারটি রিফ্রেশ করুন, অথবা আপনি অ্যাডমিনের সাথে যোগাযোগ করুন।'
-    }, 
+    },
     msg_response_error_title:{
-        en:'Error',
-        bn:'এরর',
+        en:'Response Error',
+        bn:'রেসপন্স এরর।',
     },
     msg_response_error_body:{
         en:'Internet/ Server Error',
@@ -27,5 +27,9 @@ export var labels={
     msg_contact_with_admin:{
         en:'Please contact with your System Admin.',
         bn:'সিস্টেম এডমিনের সাথে যোগাযোগ করুণ।',
-    }
+    },
+    msg_data_not_found:{
+        en:'Data/ content not found.',
+        bn:'তথ্য/ বিষয়বস্তু খুঁজে পাওয়া যায়নি।',
+    },
 }

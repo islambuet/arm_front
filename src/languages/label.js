@@ -71,6 +71,10 @@ export var labels={
         en:'Type',
         bn:'টাইপ'
     },      
+    label_select:{
+        en:'Select',
+        bn:'বাছাই-করা'
+    },      
     label_parent:{
         en:'Parent',
         bn:'প্যারেন্ট'
@@ -78,5 +82,13 @@ export var labels={
     label_controller_name:{
         en:'Controller name',
         bn:'কন্ট্রোলার এর নাম'
+    },
+    label_error:{
+        en:'Error',
+        bn:'এরর'
+    },
+    label_success:{
+        en:'Success',
+        bn:'কার্যসিদ্ধ হয়েছে'
     },
 }

@@ -9,7 +9,6 @@
             <b-button @click="$system_functions.export_csv(get_csv_headers,modified_items)" class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action_6" >{{$system_variables.get_label('button_csv')}}</b-button>          
             <b-button class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action_7" :pressed.sync="show_fitler_options">{{$system_variables.get_label('button_search')}}</b-button>
             <b-button class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action_8" :pressed.sync="show_column_controls">{{$system_variables.get_label('button_column_control')}}</b-button>
-            
             <b-button class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action_0" @click="$parent.init" >{{$system_variables.get_label('button_refresh')}}</b-button>
         </div>
       </div>
@@ -72,10 +71,11 @@
                   </select>
                 </div>
               </template>
+
               <template v-slot:cell(num_tasks)="data">
-                {{data.item.action_0.split(',').length-2}}
-                
+                {{data.item.action_0.split(',').length-2}}                
               </template>
+
               <template v-slot:cell(actions)="data">
                 <b-dropdown size="sm" :text="$system_variables.get_label('button_action')" dropright variant="primary" :class="'action_menu'">
                   <b-dropdown-item :to="'/setup_system_configures/edit/'+data.item.id">{{$system_variables.get_label('action_edit')}}</b-dropdown-item>
@@ -99,7 +99,6 @@
 <script>
 import Pagination from '@/views/template/Pagination.vue'
 import ColumnControl from '@/views/template/ColumnControl.vue'
-
 
 export default {
   name: 'List',

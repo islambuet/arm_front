@@ -1,4 +1,8 @@
 import Vue from 'vue'
+import '@/assets/system_variables.js'
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+Vue.use(BootstrapVue)
+
 var system_functions= new Vue(
 {    
     methods:{
@@ -187,6 +191,28 @@ var system_functions= new Vue(
             hiddenElement.target = '_blank';
             hiddenElement.download = 'output.csv';
             hiddenElement.click();            
+        },
+        response_error_task: function(response)
+        {
+            if(response.data.error_type=='SITE_OFF_LINE'){
+                this.$system_variables.status_task_loaded=-3;
+            } 
+            else if(response.data.error_type=='UNAUTHORIZED'){
+                this.$system_variables.status_task_loaded=-2;
+            }
+            else if(response.data.error_type=='ERROR_DATA'){
+                
+            }
+            else {
+                var err_body = (response.data.error_type) ? this.$system_variables.get_label(response.data.error_type) : this.$system_variables.get_label('msg_response_error_title');
+                this.$bvToast.toast( err_body,
+                {
+                  title: this.$system_variables.get_label('label_error'),
+                  variant:'danger',
+                  autoHideDelay: 5000,
+                  appendToast: false
+                }); 
+            }
         },
     }
 });
