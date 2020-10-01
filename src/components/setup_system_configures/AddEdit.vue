@@ -10,7 +10,7 @@
         </div>  
         <div class="card d-print-none mb-2">
           <div class="card-header">
-            <div v-if="$parent.item.id>0">Edit ::{{$parent.item['name']}}</div>
+            <div v-if="$parent.item.id>0">Edit :: {{$parent.item['purpose']}}</div>
             <div v-else>{{$system_variables.get_label_task('label_sys_system_configuration_action_add')}}</div>
           </div>
           <div class="card-body">
@@ -69,7 +69,6 @@ export default {
         }
       } 
       return temp_items;
-
     }
   },
   methods:{
@@ -78,7 +77,8 @@ export default {
     {
       this.$system_variables.status_data_loaded=0; 
       var form_data=new FormData(document.getElementById('form_save'));       
-      form_data.append ('token_auth', this.$system_variables.user.token_auth); 
+      form_data.append ('token_auth', this.$system_variables.user.token_auth);
+      form_data.append ('token_csrf', this.$system_variables.user.token_csrf);
       this.$axios.post('/setup_system_configures/save_item',form_data)
       .then(response=>{          
         this.$system_variables.status_data_loaded=1;
@@ -90,7 +90,7 @@ export default {
         {
             this.$parent.reload_items=true;
             this.$system_variables.status_data_loaded=1;
-            this.$bvToast.toast(this.$system_variables.get_label("Saved SuccessFully"), {title: this.$system_variables.get_label('label_Success'),variant:'Success',autoHideDelay: 5000,appendToast: false});              
+            this.$bvToast.toast(this.$system_variables.get_label("Saved SuccessFully"), {title: this.$system_variables.get_label('label_success'),variant:'success',autoHideDelay: 5000,appendToast: false});              
             if(save_and_new)
             {
               this.$router.push("/setup_system_configures/add");
@@ -103,7 +103,13 @@ export default {
       })
       .catch(error => {   
         this.$system_variables.status_data_loaded=1;
-        this.$bvToast.toast(this.$system_variables.get_label("Response Error"), {title: this.$system_variables.get_label('label_error'),variant:'danger',autoHideDelay: 5000,appendToast: false});   
+        this.$bvToast.toast( this.$system_variables.get_label('msg_contact_with_admin'),
+        {
+          title: this.$system_variables.get_label('msg_response_error_title'),
+          variant:'danger',
+          autoHideDelay: 5000,
+          appendToast: false
+        }); 
       });
     }
   }  

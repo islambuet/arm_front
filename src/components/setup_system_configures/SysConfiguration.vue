@@ -1,8 +1,8 @@
 <template>
   <div>
      <div v-if="$system_variables.status_task_loaded==1">
-    <List v-show="method=='list'"/>    
-    <AddEdit v-show="method=='add' || method=='edit'"/> 
+      <List v-show="method=='list'"/>    
+      <AddEdit v-show="method=='add' || method=='edit'"/> 
     </div>
   </div>
   
@@ -34,14 +34,10 @@ export default {
         items:[],
         types:[],
         item:{},        
-        default_item:{id:0,name:"",ordering:99,status:'Active',action_0:0,action_1:0,action_2:0,action_3:0,action_4:0,action_5:0,action_6:0,action_7:0,action_8:0},
+        default_item:{},
         //pagination:{current_page:1,items_per_page:50,num_itemshowing:0,num_items:10,page_options: [10,20, 50, 100, 500]},
         pagination:{current_page:1,items_per_page:5,num_item_showing:0,num_items:0},
-        max_modules_tasks_level:1,
-        modules_tasks:[],
-        max_module_task_action:9,
         reload_items:true,
-        loaded_role:false
       }
     },
     watch: {
@@ -69,38 +65,29 @@ export default {
       }
     },
     init:function()
-    { 
+    {
         this.$system_variables.status_task_loaded=0;  
         this.$system_variables.status_data_loaded=1;  
         this.reload_items=true;
         var form_data=new FormData();
-        form_data.append ('token_auth', this.$system_variables.user.token_auth);      
+        form_data.append ('token_auth', this.$system_variables.user.token_auth);
+        form_data.append ('token_csrf', this.$system_variables.user.token_csrf);
         this.$axios.post('/setup_system_configures/initialize',form_data)
         .then(response=>{
-            if(response.data.error_type)        
+            if(response.data.error_type)
             {           
-              if(response.data.error_type=='SITE_OFF_LINE'){
-                this.$system_variables.status_task_loaded=-3;
-              } else {
-                this.$system_variables.status_task_loaded=0;
-                this.$bvToast.toast(this.$system_variables.get_label(response.data.error_type), {title: this.$system_variables.get_label('label_error'),variant:'danger',autoHideDelay: 5000,appendToast: false});
-              }
+              this.$system_functions.response_error_task(response);
             }
             else
             {
                 this.permissions=response.data.permissions;                 
-                Object.assign(this.default_item, response.data.default_item);                 
+                // Object.assign(this.default_item, response.data.default_item); 
+                this.default_item = response.data.default_item;
                 Object.assign(this.item, this.default_item); 
                 if(response.data.hidden_columns)  
                 {
                   this.columns.hidden_columns=response.data.hidden_columns;
-                }               
-                if(response.data.max_module_task_action)  
-                {
-                  this.max_module_task_action=response.data.max_module_task_action;
-                }               
-                this.max_modules_tasks_level=response.data.max_modules_tasks_level;
-                this.modules_tasks=response.data.modules_tasks;  
+                }
                 this.$system_variables.status_task_loaded=1;
 
                 this.set_control_columns();
@@ -145,7 +132,7 @@ export default {
       columns['purpose']={label:this.$system_variables.get_label_task('label_purpose'), hidden:this.columns.hidden_columns.indexOf('purpose')>=0?true:false,sticky_column:false,sortable:false};
       columns['description']={label:this.$system_variables.get_label_task('label_description'), hidden:this.columns.hidden_columns.indexOf('description')>=0?true:false,sticky_column:false,sortable:false};
       columns['config_value']={label:this.$system_variables.get_label_task('label_config_value'), hidden:this.columns.hidden_columns.indexOf('config_value')>=0?true:false,sticky_column:false,sortable:false};
-      columns['status']={label:this.$system_variables.get_label_task('label_status'), hidden:this.columns.hidden_columns.indexOf('status')>=0?true:false,sticky_column:false,sortable:false};
+      columns['status']={label:this.$system_variables.get_label('label_status'), hidden:this.columns.hidden_columns.indexOf('status')>=0?true:false,sticky_column:false,sortable:false};
       this.columns.display_columns=this.$system_functions.get_display_columns(columns); 
     },
     get_items:function()
@@ -160,20 +147,25 @@ export default {
               this.$system_variables.status_data_loaded=1;
               if(response.data.error_type)        
               {   
-                  this.$bvToast.toast(this.$system_variables.get_label(response.data.error_type), {title: this.$system_variables.get_label('label_error'),variant:'danger',autoHideDelay: 5000,appendToast: false});
+                  this.$system_functions.response_error_task(response);
               }
               else
-              {   
-                  
+              {                  
                   this.items=response.data.items;
-                  //this.pagination.num_items=response.data.num_items;//here returning all data                                        
+                  //this.pagination.num_items=response.data.num_items; //here returning all data                                        
                   this.pagination.num_items=this.items.length;
                   this.reload_items=false;
               }       
             })
             .catch(error => {   
                 this.$system_variables.status_data_loaded=1;
-                this.$bvToast.toast(this.$system_variables.get_label("Response Error"), {title: this.$system_variables.get_label('label_error'),variant:'danger',autoHideDelay: 5000,appendToast: false});
+                this.$bvToast.toast( this.$system_variables.get_label('msg_contact_with_admin'),
+                {
+                  title: this.$system_variables.get_label('msg_response_error_title'),
+                  variant:'danger',
+                  autoHideDelay: 5000,
+                  appendToast: false
+                }); 
             });
         }
     },
@@ -196,8 +188,8 @@ export default {
             this.$system_variables.status_data_loaded=1;
             if(response.data.error_type)        
             {            
-              this.$bvToast.toast(this.$system_variables.get_label(response.data.error_type), {title: this.$system_variables.get_label('label_error'),variant:'danger',autoHideDelay: 5000,appendToast: false});
-              this.$router.push("/setup_system_configures");
+              this.$system_functions.response_error_task(response);
+              this.$router.push("/setup_system_configures/get_item");
             }
             else
             {
@@ -207,14 +199,26 @@ export default {
               }
               else
               {
-                this.$bvToast.toast(this.$system_variables.get_label('Data Not Found'), {title: this.$system_variables.get_label('label_error'),variant:'danger',autoHideDelay: 5000,appendToast: false});
+                this.$bvToast.toast(this.$system_variables.get_label('msg_data_not_found'), 
+                {
+                  title: this.$system_variables.get_label('label_error'),
+                  variant:'danger',
+                  autoHideDelay: 5000,
+                  appendToast: false
+                });
                 this.$router.push("/setup_system_configures");
               }
             }        
           })
           .catch(error => {   
             this.$system_variables.status_data_loaded=1;
-            this.$bvToast.toast(this.$system_variables.get_label("Response Error"), {title: this.$system_variables.get_label('label_error'),variant:'danger',autoHideDelay: 5000,appendToast: false});  
+            this.$bvToast.toast( this.$system_variables.get_label('msg_contact_with_admin'),
+            {
+              title: this.$system_variables.get_label('msg_response_error_title'),
+              variant:'danger',
+              autoHideDelay: 5000,
+              appendToast: false
+            });  
             this.$router.push("/setup_system_configures");            
           });
         }
@@ -232,56 +236,7 @@ export default {
         }        
       } 
        
-    },
-    role:function(item_id)
-    {
-      if(item_id>0)
-      {
-        if(!(this.permissions.action_2))
-        { 
-          this.$system_variables.status_task_loaded=-2;
-        }
-        else
-        {
-          this.loaded_role=false;//for reload role task
-          this.$system_variables.status_data_loaded=0;        
-          var form_data=new FormData();
-          form_data.append ('token_auth', this.$system_variables.user.token_auth);                  
-          form_data.append ('item_id', item_id);
-          this.$axios.post('/setup_system_configures/get_item',form_data)
-          .then(response=>{          
-            this.$system_variables.status_data_loaded=1;
-            if(response.data.error_type)        
-            {            
-              this.$bvToast.toast(this.$system_variables.get_label(response.data.error_type), {title: this.$system_variables.get_label('label_error'),variant:'danger',autoHideDelay: 5000,appendToast: false});
-              this.$router.push("/setup_system_configures");
-            }
-            else
-            {
-              if(response.data.item)  
-              {
-                this.item=response.data.item; 
-                this.loaded_role=true;//reseted
-              }
-              else
-              {
-                this.$bvToast.toast(this.$system_variables.get_label('Data Not Found'), {title: this.$system_variables.get_label('label_error'),variant:'danger',autoHideDelay: 5000,appendToast: false});
-                this.$router.push("/setup_system_configures");
-              }
-            }        
-          })
-          .catch(error => {   
-            this.$system_variables.status_data_loaded=1;
-            this.$bvToast.toast(this.$system_variables.get_label("Response Error"), {title: this.$system_variables.get_label('label_error'),variant:'danger',autoHideDelay: 5000,appendToast: false});  
-            this.$router.push("/setup_system_configures");            
-          });
-        }
-      }
-      else
-      {
-        this.$system_variables.status_task_loaded=-2;        
-      }
-    },    
+    },  
   }
 }
 </script>
