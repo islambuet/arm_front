@@ -193,7 +193,7 @@ export default {
             if(response.data.error_type)        
             {            
               this.$system_functions.response_error_task(response);
-              this.$router.push("/setup_system_configures/get_item");
+              this.$router.push("/setup_system_configures/");
             }
             else
             {
