@@ -24,7 +24,7 @@ export default {
     name: "ColumnControl",
     data(){
         return {
-                checked:true,
+            checked:true,
         }
     },
     props: {
@@ -72,13 +72,17 @@ export default {
         {
             this.$system_variables.status_data_loaded=0; 
             var form_data=new FormData(document.getElementById('form_column_control'));       
-            form_data.append ('token_auth', this.$system_variables.user.token_auth); 
+            form_data.append ('token_auth', localStorage.getItem('token_auth')); 
+            form_data.append ('token_csrf', localStorage.getItem('token_csrf'));
             this.$axios.post('/column_control/save',form_data)
             .then(response=>{          
+                // console.log(response.data)
                 this.$system_variables.status_data_loaded=1;
+                this.$system_variables.set_csrf(response);
                 if(response.data.error_type)        
                 {            
-                    this.$bvToast.toast(this.$system_variables.get_label(response.data.error_type), {title: this.$system_variables.get_label('label_error'),variant:'danger',autoHideDelay: 5000,appendToast: false});
+                    // this.$bvToast.toast(this.$system_variables.get_label(response.data.error_type), {title: this.$system_variables.get_label('label_error'),variant:'danger',autoHideDelay: 5000,appendToast: false});
+                    this.$system_functions.response_error_task(response);
                 }
                 else
                 {
@@ -86,8 +90,16 @@ export default {
                 }                 
             })
             .catch(error => {   
+                // this.$system_variables.status_data_loaded=1;
+                // this.$bvToast.toast(this.$system_variables.get_label("Response Error"), {title: this.$system_variables.get_label('label_error'),variant:'danger',autoHideDelay: 5000,appendToast: false});   
                 this.$system_variables.status_data_loaded=1;
-                this.$bvToast.toast(this.$system_variables.get_label("Response Error"), {title: this.$system_variables.get_label('label_error'),variant:'danger',autoHideDelay: 5000,appendToast: false});   
+                this.$bvToast.toast( this.$system_variables.get_label('msg_contact_with_admin'),
+                {
+                title: this.$system_variables.get_label('msg_response_error_title'),
+                variant:'danger',
+                autoHideDelay: 5000,
+                appendToast: false
+                }); 
             });
         }
     }

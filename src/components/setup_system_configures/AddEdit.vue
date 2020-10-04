@@ -57,7 +57,7 @@ export default {
   name: 'AddEdit',
   mounted:function()
   {    
-    console.log(this.$system_variables.user.token_csrf)
+    
   },  
   computed:{   
     get_parents:function(){ 
@@ -78,8 +78,10 @@ export default {
     {
       this.$system_variables.status_data_loaded=0; 
       var form_data=new FormData(document.getElementById('form_save'));       
-      form_data.append ('token_auth', this.$system_variables.user.token_auth);
-      form_data.append ('token_csrf', this.$system_variables.user.token_csrf);
+      // form_data.append ('token_auth', this.$system_variables.user.token_auth);
+      // form_data.append ('token_csrf', this.$system_variables.user.token_csrf);
+      form_data.append ('token_auth', localStorage.getItem('token_auth'));
+      form_data.append ('token_csrf', localStorage.getItem('token_csrf'));
       this.$axios.post('/setup_system_configures/save_item',form_data)
       .then(response=>{          
         this.$system_variables.status_data_loaded=1;
@@ -88,22 +90,22 @@ export default {
         this.$system_variables.set_csrf(response);
         if(response.data.error_type)        
         {            
-          this.$bvToast.toast(this.$system_variables.get_label(response.data.error_type), {title: this.$system_variables.get_label('label_error'),variant:'danger',autoHideDelay: 5000,appendToast: false});
+          // this.$bvToast.toast(this.$system_variables.get_label(response.data.error_type), {title: this.$system_variables.get_label('label_error'),variant:'danger',autoHideDelay: 5000,appendToast: false});
+          this.$system_functions.response_error_task(response);
         }
         else
         {
-          console.log(response.data)
-            this.$parent.reload_items=true;
-            this.$system_variables.status_data_loaded=1;
-            this.$bvToast.toast(this.$system_variables.get_label("Saved SuccessFully"), {title: this.$system_variables.get_label('label_success'),variant:'success',autoHideDelay: 5000,appendToast: false});              
-            if(save_and_new)
-            {
-              this.$router.push("/setup_system_configures/add");
-            }
-            else
-            {
-              this.$router.push("/setup_system_configures");
-            }
+          this.$parent.reload_items=true;
+          this.$system_variables.status_data_loaded=1;
+          this.$bvToast.toast(this.$system_variables.get_label("Saved SuccessFully"), {title: this.$system_variables.get_label('label_success'),variant:'success',autoHideDelay: 5000,appendToast: false});              
+          if(save_and_new)
+          {
+            this.$router.push("/setup_system_configures/add");
+          }
+          else
+          {
+            this.$router.push("/setup_system_configures");
+          }
         }                 
       })
       .catch(error => {   

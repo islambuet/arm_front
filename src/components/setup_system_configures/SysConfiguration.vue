@@ -70,8 +70,10 @@ export default {
         this.$system_variables.status_data_loaded=1;  
         this.reload_items=true;
         var form_data=new FormData();
-        form_data.append ('token_auth', this.$system_variables.user.token_auth);
-        form_data.append ('token_csrf', this.$system_variables.user.token_csrf);
+        // form_data.append ('token_auth', this.$system_variables.user.token_auth);
+        // form_data.append ('token_csrf', this.$system_variables.user.token_csrf);
+        form_data.append ('token_auth', localStorage.getItem('token_auth'));
+        form_data.append ('token_csrf', localStorage.getItem('token_csrf'));
         this.$axios.post('/setup_system_configures/initialize',form_data)
         .then(response=>{
             if(response.data.error_type)
@@ -141,7 +143,8 @@ export default {
         {
             this.$system_variables.status_data_loaded=0;        
             var form_data=new FormData();
-            form_data.append ('token_auth', this.$system_variables.user.token_auth);                  
+            //form_data.append ('token_auth', this.$system_variables.user.token_auth);                  
+            form_data.append ('token_auth', localStorage.getItem('token_auth'));                  
             this.$axios.post('/setup_system_configures/get_items',form_data)
             .then(response=>{          
               this.$system_variables.status_data_loaded=1;
@@ -181,7 +184,8 @@ export default {
         {
           this.$system_variables.status_data_loaded=0;        
           var form_data=new FormData();
-          form_data.append ('token_auth', this.$system_variables.user.token_auth);                  
+          // form_data.append ('token_auth', this.$system_variables.user.token_auth);                  
+          form_data.append ('token_auth', localStorage.getItem('token_auth'));
           form_data.append ('item_id', item_id);
           this.$axios.post('/setup_system_configures/get_item',form_data)
           .then(response=>{          

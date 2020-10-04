@@ -54,7 +54,7 @@ export default {
       this.$system_variables.status_data_loaded=1;
       
       var form_data=new FormData();
-      form_data.append ('token_auth', this.$system_variables.user.token_auth);
+      form_data.append ('token_auth', localStorage.getItem('token_auth'));
       this.$axios.all([      
           this.$axios.post('/user/initialize',form_data),          
         ])
