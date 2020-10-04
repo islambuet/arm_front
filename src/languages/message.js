@@ -4,6 +4,14 @@ export var labels={
         en:'Data Loading ...',
         bn:'ডেটা লোড ...'
     },
+    msg_response_save_success:{
+        en:'Saved Successfully',
+        bn:'সফলভাবে সংরক্ষিত হয়েছে'
+    },
+    msg_response_save_fail:{
+        en:'Failed to save.',
+        bn:'সফলভাবে সংরক্ষিত হয়েনি'
+    },
     msg_loading_error_header:{
         en:'Data Loading Problem',
         bn:'ডেটা লোড সমস্...'
@@ -31,5 +39,18 @@ export var labels={
     msg_data_not_found:{
         en:'Data/ content not found.',
         bn:'তথ্য/ বিষয়বস্তু খুঁজে পাওয়া যায়নি।',
+    },
+    // Deny or, No Access
+    msg_loading_access_deny_header:{
+        en:'Access Denied',
+        bn:'প্রবেশ নিষেধ',
+    },
+    msg_loading_access_deny_subheader:{
+        en:'You are Logged out or, may have no access',
+        bn:'আপনার প্রবেশধিকার নেই'
+    },
+    msg_loading_access_deny_info:{
+        en:'You don\'t have permissison to this page. Contact with your Admin.',
+        bn:'',
     },
 }

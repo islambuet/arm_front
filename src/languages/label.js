@@ -89,6 +89,10 @@ export var labels={
     },
     label_success:{
         en:'Success',
-        bn:'কার্যসিদ্ধ হয়েছে'
+        bn:'সফল'
+    },
+    label_failed:{
+        en:'Failed',
+        bn:'অসফল'
     },
 }
