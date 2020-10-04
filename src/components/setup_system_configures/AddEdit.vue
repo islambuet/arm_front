@@ -57,6 +57,7 @@ export default {
   name: 'AddEdit',
   mounted:function()
   {    
+    console.log(this.$system_variables.user.token_csrf)
   },  
   computed:{   
     get_parents:function(){ 
@@ -82,12 +83,16 @@ export default {
       this.$axios.post('/setup_system_configures/save_item',form_data)
       .then(response=>{          
         this.$system_variables.status_data_loaded=1;
+        // this.$system_variables.set_user({token_csrf: response.data.token_csrf});
+        // localStorage.setItem('token_csrf', response.data.token_csrf)
+        this.$system_variables.set_csrf(response);
         if(response.data.error_type)        
         {            
           this.$bvToast.toast(this.$system_variables.get_label(response.data.error_type), {title: this.$system_variables.get_label('label_error'),variant:'danger',autoHideDelay: 5000,appendToast: false});
         }
         else
         {
+          console.log(response.data)
             this.$parent.reload_items=true;
             this.$system_variables.status_data_loaded=1;
             this.$bvToast.toast(this.$system_variables.get_label("Saved SuccessFully"), {title: this.$system_variables.get_label('label_success'),variant:'success',autoHideDelay: 5000,appendToast: false});              
