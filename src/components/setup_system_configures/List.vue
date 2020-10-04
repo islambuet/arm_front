@@ -4,12 +4,12 @@
       <div class="card d-print-none mb-2">
         <div class="card-body">
             <!-- 0=view,1=add,2=edit,3=delete,4=forward,5=print,6=csv,7=filter,8=column header -->
-            <router-link  to="/setup_system_configures/add" :class="'btn btn-success mr-2 mb-2'" >{{$system_variables.get_label('button_new')}}</router-link>            
-            <b-button onclick="window.print();" class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action_5" >{{$system_variables.get_label('button_print')}}</b-button>
-            <b-button @click="$system_functions.export_csv(get_csv_headers,modified_items)" class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action_6" >{{$system_variables.get_label('button_csv')}}</b-button>          
+            <router-link to="/setup_system_configures/add" :class="'btn btn-success mr-2 mb-2'">{{$system_variables.get_label('button_new')}}</router-link>            
+            <b-button class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action_5" onclick="window.print();">{{$system_variables.get_label('button_print')}}</b-button>
+            <b-button class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action_6" @click="$system_functions.export_csv(get_csv_headers,modified_items)">{{$system_variables.get_label('button_csv')}}</b-button>          
             <b-button class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action_7" :pressed.sync="show_fitler_options">{{$system_variables.get_label('button_search')}}</b-button>
             <b-button class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action_8" :pressed.sync="show_column_controls">{{$system_variables.get_label('button_column_control')}}</b-button>
-            <b-button class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action_0" @click="$parent.init" >{{$system_variables.get_label('button_refresh')}}</b-button>
+            <b-button class="mr-2 mb-2" variant="success" v-if="$parent.permissions.action_0" @click="$parent.init">{{$system_variables.get_label('button_refresh')}}</b-button>
         </div>
       </div>
       <div class="card d-print-none mb-2" v-if="show_column_controls">

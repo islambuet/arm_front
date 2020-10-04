@@ -17,27 +17,27 @@
             <form id="form_save">
               <input type="hidden" name="item_id" :value="$parent.item.id">
               <b-row class="mb-2">
-                <b-col cols="4" class="text-right"><label>{{$system_variables.get_label_task('purpose')}}</label></b-col>
+                <b-col cols="4" class="mt-1 text-right"><label>{{$system_variables.get_label_task('label_purpose')}}</label></b-col>
                 <b-col cols="8" sm="4">
-                  <input type="text" name="item[purpose]" v-model="$parent.item.purpose" class="form-control" />
+                  <input type="text" name="item[purpose]" v-model="$parent.item.purpose" class="form-control" required/>
                 </b-col>                
               </b-row>
               <b-row class="mb-2">
-                <b-col cols="4" class="text-right"><label>{{$system_variables.get_label_task('description')}}</label></b-col>
+                <b-col cols="4" class="mt-1 text-right"><label>{{$system_variables.get_label_task('label_description')}}</label></b-col>
                 <b-col cols="8" sm="4">
-                  <input type="text" name="item[description]" v-model="$parent.item.description" class="form-control" />
+                  <textarea class="form-control" name="item[description]" v-model="$parent.item.description" rows="3" required></textarea>
                 </b-col>                
               </b-row>
               <b-row class="mb-2">
-                <b-col cols="4" class="text-right"><label>{{$system_variables.get_label_task('config_value')}}</label></b-col>
+                <b-col cols="4" class="mt-1 text-right"><label>{{$system_variables.get_label_task('label_config_value')}}</label></b-col>
                 <b-col cols="8" sm="4">
-                  <input type="text" name="item[config_value]" v-model="$parent.item.config_value" class="form-control" />
+                  <input type="text" name="item[config_value]" v-model="$parent.item.config_value" class="form-control" required/>
                 </b-col>                
               </b-row>
               <b-row class="mb-2">
-                <b-col cols="4" class="text-right"><label>{{$system_variables.get_label('label_status')}}</label></b-col>
+                <b-col cols="4" class="mt-1 text-right"><label>{{$system_variables.get_label('label_status')}}</label></b-col>
                 <b-col cols="8" sm="4">
-                  <select class="form-control" v-model="$parent.item.status" name="item[status]" >                        
+                  <select class="form-control" v-model="$parent.item.status" name="item[status]" required>                        
                         <option v-for="(option, index) in ['Active','In-Active']" :key="index" :value="option">
                             {{ option}}
                         </option>
