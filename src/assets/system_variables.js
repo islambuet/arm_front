@@ -56,7 +56,11 @@ var system_variables= new Vue(
           for (var item_key in data){
               this.user[item_key] = data[item_key];
           }
-        },        
+        },       
+        set_csrf: function(response){
+          this.set_user({token_csrf: response.data.token_csrf});
+          localStorage.setItem('token_csrf', response.data.token_csrf)
+        }, 
         get_msg_response_error: function()
         {
           return '<h4 class="alert-heading">'+this.get_label('msg_response_error_title')+'</h4>'+'<hr>'+
