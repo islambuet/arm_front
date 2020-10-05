@@ -26,6 +26,27 @@ const routes = [
       {path: 'role/:item_id'} ,     
     ]
   },    
+  { path: '/setup_product_crop',component: function () {return import('@/components/setup_product_crop/Index.vue')},
+    children: [
+      {path: 'add'},      
+      {path: 'edit/:item_id'} ,     
+      {path: 'role/:item_id'} ,     
+    ]
+  },    
+  { path: '/setup_product_crop_type',component: function () {return import('@/components/setup_product_crop_type/Index.vue')},
+    children: [
+      {path: 'add'},      
+      {path: 'edit/:item_id'} ,     
+      {path: 'role/:item_id'} ,     
+    ]
+  },    
+  { path: '/setup_product_crop_variety',component: function () {return import('@/components/setup_product_crop_variety/Index.vue')},
+    children: [
+      {path: 'add'},      
+      {path: 'edit/:item_id'} ,     
+      {path: 'role/:item_id'} ,     
+    ]
+  },    
   { path: '*',name:'NotFound',component: function () {return import('@/components/not_found/NotFound.vue')}},
 ]
 

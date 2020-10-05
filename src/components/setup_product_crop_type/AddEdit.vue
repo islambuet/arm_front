@@ -3,35 +3,35 @@
     <div v-if="$parent.permissions.action_1 || $parent.permissions.action_2" v-show="$system_variables.status_data_loaded==1">
         <div class="card d-print-none mb-2">
             <div class="card-body">
-              <router-link  to="/setup_system_configures" :class="'btn btn-success mr-2 mb-2'" >{{$system_variables.get_label('action_back')}}</router-link>            
+              <router-link  to="/setup_product_crop" :class="'btn btn-success mr-2 mb-2'" >{{$system_variables.get_label('action_back')}}</router-link>            
                 <b-button class="mr-2 mb-2" variant="success" @click="save(false)">{{$system_variables.get_label('button_save')}}</b-button>
                 <b-button class="mr-2 mb-2" variant="success" @click="save(true)">{{$system_variables.get_label('button_save_new')}}</b-button>
             </div>
         </div>  
         <div class="card d-print-none mb-2">
           <div class="card-header">
-            <div v-if="$parent.item.id>0">Edit :: {{$parent.item['purpose']}}</div>
-            <div v-else>{{$system_variables.get_label_task('label_sys_system_configuration_action_add')}}</div>
+            <div v-if="$parent.item.id>0">Edit :: {{$parent.item['name']}}</div>
+            <div v-else>{{$system_variables.get_label_task('label_add')}}</div>
           </div>
           <div class="card-body">
             <form id="form_save">
               <input type="hidden" name="item_id" :value="$parent.item.id">
               <b-row class="mb-2">
-                <b-col cols="4" class="mt-1 text-right"><label>{{$system_variables.get_label_task('label_purpose')}}</label></b-col>
+                <b-col cols="4" class="mt-1 text-right"><label>{{$system_variables.get_label_task('label_name')}}</label></b-col>
                 <b-col cols="8" sm="4">
-                  <input type="text" name="item[purpose]" v-model="$parent.item.purpose" class="form-control" required/>
+                  <input type="text" name="item[name]" v-model="$parent.item.name" class="form-control" required/>
+                </b-col>                
+              </b-row>
+              <b-row class="mb-2">
+                <b-col cols="4" class="mt-1 text-right"><label>{{$system_variables.get_label_task('label_name')}}</label></b-col>
+                <b-col cols="8" sm="4">
+                  <input type="text" name="item[name]" v-model="$parent.item.name" class="form-control" required/>
                 </b-col>                
               </b-row>
               <b-row class="mb-2">
                 <b-col cols="4" class="mt-1 text-right"><label>{{$system_variables.get_label_task('label_description')}}</label></b-col>
                 <b-col cols="8" sm="4">
-                  <textarea class="form-control" name="item[description]" v-model="$parent.item.description" rows="3" required></textarea>
-                </b-col>                
-              </b-row>
-              <b-row class="mb-2">
-                <b-col cols="4" class="mt-1 text-right"><label>{{$system_variables.get_label_task('label_config_value')}}</label></b-col>
-                <b-col cols="8" sm="4">
-                  <input type="text" name="item[config_value]" v-model="$parent.item.config_value" class="form-control" required/>
+                  <textarea class="form-control" name="item[description]" v-model="$parent.item.description" rows="3" ></textarea>
                 </b-col>                
               </b-row>
               <b-row class="mb-2">
@@ -82,7 +82,7 @@ export default {
       // form_data.append ('token_csrf', this.$system_variables.user.token_csrf);
       form_data.append ('token_auth', localStorage.getItem('token_auth'));
       form_data.append ('token_csrf', localStorage.getItem('token_csrf'));
-      this.$axios.post('/setup_system_configures/save_item',form_data)
+      this.$axios.post('/setup_product_crop/save_item',form_data)
       .then(response=>{          
         this.$system_variables.status_data_loaded=1;
         if(response.data.error_type)        
@@ -98,14 +98,14 @@ export default {
           this.$bvToast.toast(this.$system_variables.get_label("Saved SuccessFully"), {title: this.$system_variables.get_label('label_success'),variant:'success',autoHideDelay: 5000,appendToast: false});              
           if(save_and_new)
           {
-            this.$router.push("/setup_system_configures/add");
+            this.$router.push("/setup_product_crop/add");
           }
           else
           {
-            this.$router.push("/setup_system_configures");
+            this.$router.push("/setup_product_crop");
           }
-        }       
-        this.$system_variables.set_csrf(response);          
+        }  
+        this.$system_variables.set_csrf(response);               
       })
       .catch(error => {   
         this.$system_variables.status_data_loaded=1;

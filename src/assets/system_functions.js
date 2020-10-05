@@ -201,7 +201,14 @@ var system_functions= new Vue(
                 this.$system_variables.status_task_loaded=-2;
             }
             else if(response.data.error_type=='ERROR_DATA'){
-                
+                var err_body = (response.data.error_type) ? this.$system_variables.get_label(response.data.error_type) : this.$system_variables.get_label('msg_response_error_title');
+                this.$bvToast.toast( response.data.error_message,
+                {
+                    title: this.$system_variables.get_label('label_error'),
+                    variant:'danger',
+                    autoHideDelay: 5000,
+                    appendToast: false
+                }); 
             }
             else {
                 var err_body = (response.data.error_type) ? this.$system_variables.get_label(response.data.error_type) : this.$system_variables.get_label('msg_response_error_title');
