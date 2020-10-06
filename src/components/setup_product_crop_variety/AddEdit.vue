@@ -20,7 +20,7 @@
                 <b-col cols="4" class="text-right"><label>{{$system_variables.get_label_task('label_crop_name')}} <strong class="text-danger"> * </strong></label></b-col>
                 <b-col cols="8" sm="4">
                   <select class="form-control" v-model="$parent.item.crop_id" name="item[crop_id]" required>
-                        <option value="">{{$system_variables.get_label('Label_select')}}</option>
+                        <option value="0">{{$system_variables.get_label('Label_select')}}</option>
                         <option v-for="(option, index) in $parent.crops" :key="index" :value="option.value">
                             {{ option.text}}
                         </option>
@@ -78,6 +78,7 @@ export default {
     }
   },
   methods:{
+    
     save:function(save_and_new)
     {
       this.$system_variables.status_data_loaded=0; 

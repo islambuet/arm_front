@@ -13,18 +13,18 @@
 import List from './List.vue'
 import AddEdit from './AddEdit.vue'
 export default {
-    name: 'SystemConfiguration',
+    name: 'SetupDesignation',
     components: {
         List,AddEdit   
     },
     mounted:function()
     {
        this.$system_variables.labels_task=this.$system_functions.load_languages([
-        {language:this.$system_variables.language,file:'components/setup_system_configures/language.js'}
+        {language:this.$system_variables.language,file:'components/setup_designation/language.js'}
         
       ]); 
       //Object.assign(this.item, this.default_item); 
-      this.init();        
+      this.init();    
     },
     data() {
       return {
@@ -32,6 +32,7 @@ export default {
         permissions:{},
         columns:{hidden_columns:[],control_columns:[],filter_columns:{},display_columns:[]},
         items:[],
+        designations:[],
         item:{},        
         default_item:{},
         //pagination:{current_page:1,items_per_page:50,num_itemshowing:0,num_items:10,page_options: [10,20, 50, 100, 500]},
@@ -47,17 +48,17 @@ export default {
     methods:{
     routing:function(route)
     {      
-      if(route.path=='/setup_system_configures')
+      if(route.path=='/setup_designation')
       {
         this.method='list';
         this.get_items();
       }
-      else if(route.path=="/setup_system_configures/add")
+      else if(route.path=="/setup_designation/add")
       {
         this.method='add';
         this.add_edit(0);
       }
-      else if(route.path.indexOf("/setup_system_configures/edit/")!=-1)
+      else if(route.path.indexOf("/setup_designation/edit/")!=-1)
       {
         this.method='edit';        
         this.add_edit(route.params['item_id']);        
@@ -73,18 +74,18 @@ export default {
         // form_data.append ('token_csrf', this.$system_variables.user.token_csrf);
         form_data.append ('token_auth', localStorage.getItem('token_auth'));
         form_data.append ('token_csrf', localStorage.getItem('token_csrf'));
-        this.$axios.post('/setup_system_configures/initialize',form_data)
+        this.$axios.post('/setup_designation/initialize',form_data)
         .then(response=>{
             if(response.data.error_type)
             {           
               this.$system_functions.response_error_task(response);
-              return;
             }
             else
             {
                 this.permissions=response.data.permissions;                 
                 // Object.assign(this.default_item, response.data.default_item); 
                 this.default_item = response.data.default_item;
+                this.designations = response.data.designations;
                 Object.assign(this.item, this.default_item); 
                 if(response.data.hidden_columns)  
                 {
@@ -108,9 +109,8 @@ export default {
       //value field mandatory for checked value
       var control_columns=[]
       control_columns.push({ label:this.$system_variables.get_label('label_id'), value: 'id',selected: this.columns.hidden_columns.indexOf('id')>=0?'id':''});
-      control_columns.push({ label:this.$system_variables.get_label_task('label_purpose'), value: 'purpose',selected: this.columns.hidden_columns.indexOf('purpose')>=0?'purpose':''});
-      control_columns.push({ label:this.$system_variables.get_label_task('label_description'), value: 'description',selected: this.columns.hidden_columns.indexOf('description')>=0?'description':''});
-      control_columns.push({ label:this.$system_variables.get_label_task('label_config_value'), value: 'config_value',selected: this.columns.hidden_columns.indexOf('config_value')>=0?'config_value':''});
+      control_columns.push({ label:this.$system_variables.get_label_task('label_name'), value: 'name',selected: this.columns.hidden_columns.indexOf('name')>=0?'name':''});
+      control_columns.push({ label:this.$system_variables.get_label_task('label_ordering'), value: 'ordering',selected: this.columns.hidden_columns.indexOf('ordering')>=0?'ordering':''});
       control_columns.push({ label:this.$system_variables.get_label('label_status'), value: 'status',selected: this.columns.hidden_columns.indexOf('status')>=0?'status':''});
 
       this.columns.control_columns=control_columns;      
@@ -118,10 +118,9 @@ export default {
     set_filter_columns:function()
     {
       var filter_columns={};
-      filter_columns['id']={filter_type:'number',fitler_from:{value:"", default_value:""},fitler_to:{value:"", default_value:""}};
-      filter_columns['purpose']={value:"", default_value:""};//default value not using               
-      filter_columns['description']={value:"", default_value:""};//default value not using               
-      filter_columns['config_value']={value:"", default_value:""};//default value not using               
+      filter_columns['id']={filter_type:'number',fitler_from:{value:"", default_value:""},fitler_to:{value:"", default_value:""}};    
+      filter_columns['name']={value:"", default_value:""};//default value not using               
+      filter_columns['ordering']={value:"", default_value:""};//default value not using               
       filter_columns['status']={filter_type:'list', options:['Active','In-Active'], value:"", default_value:""};
       //filter_columns['date_created']={filter_type:'date',fitler_start:{value:'', default_value:""},fitler_end:{value:'', default_value:""}};
       this.columns.filter_columns=filter_columns;      
@@ -131,9 +130,8 @@ export default {
       var columns={};
       columns['actions']={label:this.$system_variables.get_label('label_action'), hidden:this.columns.false,sticky_column:false};//cannot set it sticky becuase dropdown will goes bellow
       columns['id']={label:this.$system_variables.get_label('label_id'), hidden:this.columns.hidden_columns.indexOf('id')>=0?true:false,sticky_column:true,sortable:false};
-      columns['purpose']={label:this.$system_variables.get_label_task('label_purpose'), hidden:this.columns.hidden_columns.indexOf('purpose')>=0?true:false,sticky_column:false,sortable:false};
-      columns['description']={label:this.$system_variables.get_label_task('label_description'), hidden:this.columns.hidden_columns.indexOf('description')>=0?true:false,sticky_column:false,sortable:false};
-      columns['config_value']={label:this.$system_variables.get_label_task('label_config_value'), hidden:this.columns.hidden_columns.indexOf('config_value')>=0?true:false,sticky_column:false,sortable:false};
+      columns['name']={label:this.$system_variables.get_label_task('label_name'), hidden:this.columns.hidden_columns.indexOf('name')>=0?true:false,sticky_column:false,sortable:false};
+      columns['ordering']={label:this.$system_variables.get_label_task('ordering'), hidden:this.columns.hidden_columns.indexOf('ordering')>=0?true:false,sticky_column:false,sortable:false};
       columns['status']={label:this.$system_variables.get_label('label_status'), hidden:this.columns.hidden_columns.indexOf('status')>=0?true:false,sticky_column:false,sortable:false};
       this.columns.display_columns=this.$system_functions.get_display_columns(columns); 
     },
@@ -145,13 +143,12 @@ export default {
             var form_data=new FormData();
             //form_data.append ('token_auth', this.$system_variables.user.token_auth);                  
             form_data.append ('token_auth', localStorage.getItem('token_auth'));                  
-            this.$axios.post('/setup_system_configures/get_items',form_data)
+            this.$axios.post('/setup_designation/get_items',form_data)
             .then(response=>{          
               this.$system_variables.status_data_loaded=1;
               if(response.data.error_type)        
               {   
                   this.$system_functions.response_error_task(response);
-                  return;
               }
               else
               {                  
@@ -188,13 +185,13 @@ export default {
           // form_data.append ('token_auth', this.$system_variables.user.token_auth);                  
           form_data.append ('token_auth', localStorage.getItem('token_auth'));
           form_data.append ('item_id', item_id);
-          this.$axios.post('/setup_system_configures/get_item',form_data)
+          this.$axios.post('/setup_designation/get_item',form_data)
           .then(response=>{          
             this.$system_variables.status_data_loaded=1;
             if(response.data.error_type)        
             {            
               this.$system_functions.response_error_task(response);
-              this.$router.push("/setup_system_configures");
+              this.$router.push("/setup_designation");
             }
             else
             {
@@ -211,7 +208,7 @@ export default {
                   autoHideDelay: 5000,
                   appendToast: false
                 });
-                this.$router.push("/setup_system_configures");
+                this.$router.push("/setup_designation");
               }
             }        
           })
@@ -224,7 +221,7 @@ export default {
               autoHideDelay: 5000,
               appendToast: false
             });  
-            this.$router.push("/setup_system_configures");            
+            this.$router.push("/setup_designation");            
           });
         }
       }

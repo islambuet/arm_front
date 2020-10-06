@@ -24,7 +24,7 @@ export default {
         
       ]); 
       //Object.assign(this.item, this.default_item); 
-      this.init();        
+      this.init();    
     },
     data() {
       return {
@@ -85,6 +85,7 @@ export default {
                 this.permissions=response.data.permissions;                 
                 // Object.assign(this.default_item, response.data.default_item); 
                 this.default_item = response.data.default_item;
+                this.crops = response.data.crops;
                 Object.assign(this.item, this.default_item); 
                 if(response.data.hidden_columns)  
                 {
@@ -193,7 +194,7 @@ export default {
             if(response.data.error_type)        
             {            
               this.$system_functions.response_error_task(response);
-              this.$router.push("/setup_product_crop_type/");
+              this.$router.push("/setup_product_crop_type");
             }
             else
             {

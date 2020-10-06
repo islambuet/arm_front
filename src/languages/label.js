@@ -95,4 +95,12 @@ export var labels={
         en:'Failed',
         bn:'অসফল'
     },
+    Label_select:{
+        en:'Select',
+        bn:'নির্বচন করুন'
+    },
+    label_ordering:{
+        en:'Ordering',
+        bn:'অর্ডারিং'
+    },
 }

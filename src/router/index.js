@@ -47,6 +47,27 @@ const routes = [
       {path: 'role/:item_id'} ,     
     ]
   },    
+  { path: '/setup_department',component: function () {return import('@/components/setup_department/Index.vue')},
+    children: [
+      {path: 'add'},      
+      {path: 'edit/:item_id'} ,     
+      {path: 'role/:item_id'} ,     
+    ]
+  },    
+  { path: '/setup_designation',component: function () {return import('@/components/setup_designation/Index.vue')},
+    children: [
+      {path: 'add'},      
+      {path: 'edit/:item_id'} ,     
+      {path: 'role/:item_id'} ,     
+    ]
+  },    
+  { path: '/setup_user_type',component: function () {return import('@/components/setup_user_type/Index.vue')},
+    children: [
+      {path: 'add'},      
+      {path: 'edit/:item_id'} ,     
+      {path: 'role/:item_id'} ,     
+    ]
+  },    
   { path: '*',name:'NotFound',component: function () {return import('@/components/not_found/NotFound.vue')}},
 ]
 
